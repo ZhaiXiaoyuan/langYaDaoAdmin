@@ -20,6 +20,11 @@ export default new Router({
                     component: resolve => require(['../page/platform/BannerAdmin.vue'], resolve)
                 },
                 {
+                    path: '/gameAdmin',
+                    name:'gameAdmin',
+                    component: resolve => require(['../page/platform/GameAdmin.vue'], resolve)
+                },
+                {
                     path: '/dynamicAdmin',
                     name:'dynamicAdmin',
                     component: resolve => require(['../page/dynamic/DynamicAdmin.vue'], resolve)
@@ -49,21 +54,6 @@ export default new Router({
         {
             path: '/login',
             name:'login',
-            component: resolve => require(['../page/account/Login.vue'], resolve)
-        },
-        {
-            path: '/adminLogin',
-            name:'adminLogin',
-            component: resolve => require(['../page/account/Login.vue'], resolve)
-        },
-        {
-            path: '/shopLogin',
-            name:'shopLogin',
-            component: resolve => require(['../page/account/Login.vue'], resolve)
-        },
-        {
-            path: '/userLogin',
-            name:'userLogin',
             component: resolve => require(['../page/account/Login.vue'], resolve)
         },
     ]

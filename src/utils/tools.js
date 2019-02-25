@@ -45,7 +45,7 @@ export default {
         //
       Vue.tools = {
           basicConfig:{
-              coverBasicUrl:Vue.appConfig.fileDomain+'/mazuFile/',
+              coverBasicUrl:Vue.appConfig.fileDomain+'/image/',
               colors:[
                   '#000000',
                   '#eeece0',

@@ -111,7 +111,7 @@
         data: function(){
             return {
                 pageName:null,
-                accountType:'marketManager',//superManager:'超级管理员',marketManager:市场管理员账号,accountantManager:财务管理员账号,shopManager:门店角色,userManager:用户角色
+                accountType:'',
                 ruleForm: {
                     username: '',
                     password: '',
@@ -125,117 +125,38 @@
         },
         methods: {
             submitForm() {
-                if(this.pageName=='login'){
-                    let code=document.getElementsByClassName('code-value')[0].value;
-                    if(!this.ruleForm.username||this.ruleForm.username==''){
-                        Vue.operationFeedback({type:'warn',text:'请输入账号'});
-                        return;
-                    }
-                    if(!this.ruleForm.password||this.ruleForm.password==''){
-                        Vue.operationFeedback({type:'warn',text:'请输入密码'});
-                        return;
-                    }
-                    if(!this.ruleForm.identifyCode||this.ruleForm.identifyCode==''){
-                        Vue.operationFeedback({type:'warn',text:'请输入验证码'});
-                        return;
-                    }
-                    if(this.ruleForm.identifyCode!=code){
-                        Vue.operationFeedback({type:'warn',text:'验证码错误'});
-                        return;
-                    }
-                    let fb=Vue.operationFeedback({text:'登录中...'});
-                    Vue.api.login({name:this.ruleForm.username,password:this.ruleForm.password}).then((resp)=>{
-                        if(resp.respCode=='2000'){
-                            if(resp.respMsg=='密码错误'){
-                                fb.setOptions({type:'warn',text:'登录失败，'+resp.respMsg});
-                            }else{
-                                let data=JSON.parse(resp.respMsg);
-                                this.$cookie.set('account',JSON.stringify(data),7);
-                                fb.setOptions({type:'complete',text:'登录成功'});
-                                this.$router.push({name:'bannerAdmin',params:{}});
-                            }
-                        }else{
-                            fb.setOptions({type:'warn',text:'登录失败，'+resp.respMsg});
-                        }
-                    });
-                }else if(this.pageName=='adminLogin'){
-                    let code=document.getElementsByClassName('code-value')[0].value;
-                    if(!this.ruleForm.username||this.ruleForm.username==''){
-                        Vue.operationFeedback({type:'warn',text:'请输入账号'});
-                        return;
-                    }
-                    if(!this.ruleForm.password||this.ruleForm.password==''){
-                        Vue.operationFeedback({type:'warn',text:'请输入密码'});
-                        return;
-                    }
-                    if(!this.ruleForm.identifyCode||this.ruleForm.identifyCode==''){
-                        Vue.operationFeedback({type:'warn',text:'请输入验证码'});
-                        return;
-                    }
-                    if(this.ruleForm.identifyCode!=code){
-                        Vue.operationFeedback({type:'warn',text:'验证码错误'});
-                        return;
-                    }
-                    let fb=Vue.operationFeedback({text:'登录中...'});
-                    Vue.api.adminLogin({...Vue.sessionInfo(),account:this.ruleForm.username,password:this.ruleForm.password}).then((resp)=>{
-                        if(resp.respCode=='00'){
-                            let data=JSON.parse(resp.respMsg);
-                            localStorage.setItem('loginPage','adminLogin');
-                            this.$cookie.set('account',JSON.stringify({
-                                type:data.role,
-                                account:this.ruleForm.username,
-                            }),7);
-                            this.$router.push({name:'benefitRank',params:{}});
-                            fb.setOptions({type:'complete',text:'登录成功'});
-                        }else{
-                            fb.setOptions({type:'warn',text:'登录失败，'+resp.respMsg});
-                        }
-                    });
-                }else if(this.pageName=='userLogin'||this.pageName=='shopLogin'){
-                    if(this.$route.query.test=='userTest'){
-                        this.$cookie.set('account',JSON.stringify({
-                            type:this.accountType,
-                            account:15876513870,
-                            id:'1922433ca7924bb5abdb7e58571207b6'
-                        }),7);
-                        this.$router.push({name:this.pageName=='userLogin'?'statistics':'saleStatistics',params:{}});
-                        return;
-                    }
-                    if(!this.codeData){
-                        Vue.operationFeedback({type:'warn',text:'请先发送短信获取验证码'});
-                        return;
-                    }
-                    if(!this.ruleForm.phoneCode||this.ruleForm.phoneCode==''){
-                        Vue.operationFeedback({type:'warn',text:'请输入手机验证码'});
-                        return;
-                    }
-                    let params={
-                        ...Vue.sessionInfo(),
-                        bizId:this.codeData.sms.bizId,
-                        phone:this.ruleForm.phone,
-                        verifyCode:this.ruleForm.phoneCode
-                    }
-                    let fb=Vue.operationFeedback({text:'登录中...'});
-                    Vue.api.checkPhoneCode(params).then((resp)=>{
-                        if(resp.respCode=='00'){
-                            localStorage.setItem('loginPage',this.pageName);
-                            this.$cookie.set('account',JSON.stringify({
-                                type:this.accountType,
-                                account:this.ruleForm.phone,
-                                id:this.codeData.account.id
-                            }),7);
-                         /*   this.$cookie.set('account',JSON.stringify({
-                                type:this.accountType,
-                                account:15876513870,
-                                id:'1922433ca7924bb5abdb7e58571207b6'
-                            }),7);*/
-                            this.$router.push({name:this.pageName=='userLogin'?'statistics':'saleStatistics',params:{}});
-                            fb.setOptions({type:'complete',text:'登录成功'});
-                        }else{
-                            fb.setOptions({type:'warn',text:'登录失败，'+resp.respMsg});
-                        }
-                    });
+               /* let code=document.getElementsByClassName('code-value')[0].value;*/
+                if(!this.ruleForm.username||this.ruleForm.username==''){
+                    Vue.operationFeedback({type:'warn',text:'请输入账号'});
+                    return;
                 }
+                if(!this.ruleForm.password||this.ruleForm.password==''){
+                    Vue.operationFeedback({type:'warn',text:'请输入密码'});
+                    return;
+                }
+                /*if(!this.ruleForm.identifyCode||this.ruleForm.identifyCode==''){
+                    Vue.operationFeedback({type:'warn',text:'请输入验证码'});
+                    return;
+                }
+                if(this.ruleForm.identifyCode!=code){
+                    Vue.operationFeedback({type:'warn',text:'验证码错误'});
+                    return;
+                }*/
+                let fb=Vue.operationFeedback({text:'登录中...'});
+                Vue.api.login({apiParams:{account:this.ruleForm.username,password:this.ruleForm.password}}).then((resp)=>{
+                    if(resp.respCode=='2000'){
+                        if(resp.respMsg=='密码错误'){
+                            fb.setOptions({type:'warn',text:'登录失败，'+resp.respMsg});
+                        }else{
+                            let data=JSON.parse(resp.respMsg);
+                            this.$cookie.set('account',JSON.stringify(data),7);
+                            fb.setOptions({type:'complete',text:'登录成功'});
+                            this.$router.push({name:'bannerAdmin',params:{}});
+                        }
+                    }else{
+                        fb.setOptions({type:'warn',text:'登录失败，'+resp.respMsg});
+                    }
+                });
             },
             getCode:function (data) {
                 console.log('data:',data);

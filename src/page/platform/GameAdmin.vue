@@ -64,21 +64,27 @@
                         <el-form-item label="序号：" prop="headline" v-if="curEntry">
                             <span>{{form.index+1}}</span>
                         </el-form-item>
-                        <el-form-item label="上传图片：" prop="cover">
+                        <el-form-item label="游戏头图：" prop="cover">
                             <div class="cm-pic-uploader" :class="{'anew':form.cover}">
                                 <div class="wrapper">
-                                    <img :src="form.file?form.cover:basicConfig.coverBasicUrl+form.cover" style="width: 300px;" alt="">
+                                    <img :src="form.file?form.cover:basicConfig.coverBasicUrl+form.cover" alt="">
                                     <div class="btn-wrap">
                                         <input  type="file" id="file-input" accept="image/*" @change="selectFile()">
                                         <div class="cm-btn upload-btn"><i class="icon el-icon-plus"></i></div>
                                         <span class="cm-btn cm-link-btn text-upload-btn">重新上传</span>
                                     </div>
                                 </div>
-                                <p class="tips">上传图片建议比例为1920*320，格式为jpg、png，大小不超过10M</p>
+                              <!--  <p class="tips">上传图片建议比例为1920*320，格式为jpg、png，大小不超过10M</p>-->
                             </div>
                         </el-form-item>
-                        <el-form-item label="跳转链接：" prop="url">
-                            <el-input v-model="form.url" placeholder="非必填，此链接为空则无跳转"></el-input>
+                        <el-form-item label="游戏名称：" prop="gameName">
+                            <el-input v-model="form.gameName" placeholder="请输入游戏名称"></el-input>
+                        </el-form-item>
+                        <el-form-item label="游戏链接：" prop="gameUrl">
+                            <el-input v-model="form.gameUrl" placeholder="请输入游戏链接"></el-input>
+                        </el-form-item>
+                        <el-form-item label="配置链接：" prop="configUrl">
+                            <el-input v-model="form.configUrl" placeholder="请舒润配置链接"></el-input>
                         </el-form-item>
                     </el-form>
                 </div>
@@ -139,12 +145,13 @@
                 let params={
                     pageIndex:this.pager.pageIndex,
                     pageSize:this.pager.pageSize,
+                    state:'enable'
                 }
                 this.pager.loading=true;
-                Vue.api.getBannerList({apiParams:params}).then((resp)=>{
+                Vue.api.getGameList({apiParams:params}).then((resp)=>{
                     if(resp.respCode=='2000'){
                         let data=JSON.parse(resp.respMsg);
-                        let list=data.bannerList;
+                        let list=data.bannerList?data.bannerList:[];
                         this.entryList=list;
                         this.pager.total=data.count;
                     }
@@ -158,9 +165,9 @@
                 //
                 this.clearForm();
                 //
-                this.curEntry=this.entryList[index];
-                this.curEntry.index=index;
-                if(this.curEntry){
+                if(index!=undefined){
+                    this.curEntry=this.entryList[index];
+                    this.curEntry.index=index;
                     this.form={...this.curEntry,cover:this.curEntry.image}
                 }
                 this.formModalFlag=true;
@@ -177,17 +184,27 @@
             },
             save:function () {
                 if(!this.form.cover){
-                    Vue.operationFeedback({type:'warn',text:'请上传封面'});
+                    Vue.operationFeedback({type:'warn',text:'请上传游戏头图'});
                     return;
                 }
-              /*  if(!this.form.url){
-                    Vue.operationFeedback({type:'warn',text:'请输入链接'});
+                if(!this.form.gameName){
+                    Vue.operationFeedback({type:'warn',text:'请输入游戏名称'});
                     return;
-                }*/
+                }
+                if(!this.form.gameUrl){
+                    Vue.operationFeedback({type:'warn',text:'请输入游戏链接'});
+                    return;
+                }
+                if(!this.form.configUrl){
+                    Vue.operationFeedback({type:'warn',text:'请输入配置链接'});
+                    return;
+                }
                 let fb=Vue.operationFeedback({text:'保存中...'});
                 let params={
-                    url:this.form.url,
-                    bannerType:'banner',
+                    gameName:this.form.gameName,
+                    gameUrl:this.form.gameUrl,
+                    configUrl:this.form.configUrl,
+                    describe:'',
                 }
                 if(this.curEntry){
                     params.id=this.curEntry.id;
@@ -201,8 +218,7 @@
                         }
                     });
                 }else{
-                    console.log('this.form:',this.form);
-                    Vue.api.addBanner({apiParams:params,coverPicFile:this.form.file}).then((resp)=>{
+                    Vue.api.addGame({apiParams:params,coverPicFile:this.form.file}).then((resp)=>{
                         if(resp.respCode=='2000'){
                             /*this.getList();*/
                             fb.setOptions({type:'complete',text:'保存成功'});
@@ -285,7 +301,7 @@
             //
             this.getList();
             //
-            /*this.openFormModal();*/
+            this.openFormModal();
 
 
         },

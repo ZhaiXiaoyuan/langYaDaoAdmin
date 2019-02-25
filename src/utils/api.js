@@ -22,6 +22,12 @@ export default {
     });
     /*自定义ajax函数，自带的不好用*/
     Vue.http.ajax = async function (options) {
+      if(options.params.apiParams){
+          options.params.apiParams=JSON.stringify(options.params.apiParams);
+      }
+      if(options.type=='formData'){
+          options.params=Vue.toFormData(options.params);
+      }
       if(options.method.toUpperCase() == 'GET'){
         let res = await Vue.http.get(options.url, {params: options.params});
         if(typeof res.body == 'string'){
@@ -39,7 +45,7 @@ export default {
       }
     }
 
-      let basicUrl=Vue.appConfig.domain+'/mazu-webConsole/';
+      let basicUrl=Vue.appConfig.domain;
 
       function sessionInfo() {
           return{
@@ -54,271 +60,74 @@ export default {
         login:function (params) {
             return Vue.http.ajax({
                 method: 'post',
-                url: basicUrl+'admin/login',
+                url: basicUrl+'/admin/login',
                 params: params
             });
         },
-        //获取banner的分页列表
-        getBannerList:function (params) {
-            return Vue.http.ajax({
-                method: 'post',
-                url: basicUrl+'platform/getBannerList',
-                params: params
-            });
-        },
-        //新增banner
+        //增加banner
         addBanner:function (params) {
             return Vue.http.ajax({
                 method: 'post',
-                url: basicUrl+'platform/addBanner',
+                url: basicUrl+'/banner/addBanner',
+                type:'formData',
                 params: params
             });
         },
-        //编辑协会动态
+        //编辑banner
         updateBanner:function (params) {
             return Vue.http.ajax({
                 method: 'post',
-                url: basicUrl+'platform/updateBanner',
+                url: basicUrl+'/banner/updateBanner',
+                type:'formData',
                 params: params
             });
         },
-        //动态上下架
-        updateAssociationNewsState:function (params) {
+        //获取banner列表
+        getBannerList:function (params) {
             return Vue.http.ajax({
                 method: 'post',
-                url: basicUrl+'associationNews/updateAssociationNewsState',
+                url: basicUrl+'/banner/getBannerList',
                 params: params
             });
         },
-        //删除协会动态
-        removeAssociationNews:function (params) {
-            return Vue.http.ajax({
-                method: 'post',
-                url: basicUrl+'associationNews/removeAssociationNews',
-                params: params
-            });
-        },
-        //移除banner
+        //删除banner
         removeBanner:function (params) {
             return Vue.http.ajax({
                 method: 'post',
-                url: basicUrl+'platform/removeBanner',
+                url: basicUrl+'/banner/removeBanner',
                 params: params
             });
         },
-        //上移下移banner
-        swapBannerSort:function (params) {
-            return Vue.http.ajax({
-                method: 'post',
-                url: basicUrl+'platform/swapBannerSort',
-                params: params
-            });
-        },
-        //顶置banner
+        //置顶banner
         stickBanner:function (params) {
             return Vue.http.ajax({
                 method: 'post',
-                url: basicUrl+'platform/stickBanner',
+                url: basicUrl+'/banner/stickBanner',
                 params: params
             });
         },
-        //获取动态的分页列表
-        getNewsList:function (params) {
+        //banner排序
+        swapBannerSort:function (params) {
             return Vue.http.ajax({
                 method: 'post',
-                url: basicUrl+'associationNews/getAssociationNewsList',
+                url: basicUrl+'/banner/swapBannerSort',
                 params: params
             });
         },
-        //添加动态
-        addNews:function (params) {
+        //获取游戏列表
+        getGameList:function (params) {
             return Vue.http.ajax({
                 method: 'post',
-                url: basicUrl+'associationNews/addAssociationNews',
+                url: basicUrl+'/banner/getGameList',
                 params: params
             });
         },
-        //根据id获取动态详情
-        getNewsDetail:function (params) {
+        //增加游戏
+        addGame:function (params) {
             return Vue.http.ajax({
                 method: 'post',
-                url: basicUrl+'associationNews/getAssociationNewsInfo',
-                params: params
-            });
-        },
-        //编辑动态
-        updateNews:function (params) {
-            return Vue.http.ajax({
-                method: 'post',
-                url: basicUrl+'associationNews/updateAssociationNews',
-                params: params
-            });
-        },
-        //获取成员单位的分页列表
-        getMemberList:function (params) {
-            return Vue.http.ajax({
-                method: 'post',
-                url: basicUrl+'associationNews/getMemberOrganizationList',
-                params: params
-            });
-        },
-        //增加成员单位
-        addMember:function (params) {
-            return Vue.http.ajax({
-                method: 'post',
-                url: basicUrl+'associationNews/addMemberOrganization',
-                params: params
-            });
-        },
-        //删除成员单位
-        removeMember:function (params) {
-            return Vue.http.ajax({
-                method: 'post',
-                url: basicUrl+'associationNews/removeMemberOrganization',
-                params: params
-            });
-        },
-        //编辑成员单位
-        updateMember:function (params) {
-            return Vue.http.ajax({
-                method: 'post',
-                url: basicUrl+'associationNews/updateMemberOrganization',
-                params: params
-            });
-        },
-        //根据id获取成员单位详情
-        getMemberDetail:function (params) {
-            return Vue.http.ajax({
-                method: 'post',
-                url: basicUrl+'associationNews/getMemberOrganizationInfo',
-                params: params
-            });
-        },
-        //更改管理员账号信息
-        updateAdmin:function (params) {
-            return Vue.http.ajax({
-                method: 'post',
-                url: basicUrl+'admin/updateAdmin',
-                params: params
-            });
-        },
-        //更改密码
-        updateAdminPassword:function (params) {
-            return Vue.http.ajax({
-                method: 'post',
-                url: basicUrl+'admin/updateAdminPassword',
-                params: params
-            });
-        },
-        //获取课程视频的分页列表
-        getCourseVideoList:function (params) {
-            return Vue.http.ajax({
-                method: 'post',
-                url: basicUrl+'courseVideo/getCourseVideoList',
-                params: params
-            });
-        },
-        //提交课程视频
-        addCourseVideo:function (params) {
-            return Vue.http.ajax({
-                method: 'post',
-                url: basicUrl+'courseVideo/addCourseVideo',
-                params: params
-            });
-        },
-        //删除课程视频
-        removeCourseVideo:function (params) {
-            return Vue.http.ajax({
-                method: 'post',
-                url: basicUrl+'courseVideo/removeCourseVideo',
-                params: params
-            });
-        },
-        //获取课程视频详情
-        getCourseVideoInfo:function (params) {
-            return Vue.http.ajax({
-                method: 'post',
-                url: basicUrl+'courseVideo/getCourseVideoInfo',
-                params: params
-            });
-        },
-        //课程上下架
-        updateCourseVideoState:function (params) {
-            return Vue.http.ajax({
-                method: 'post',
-                url: basicUrl+'courseVideo/updateCourseVideoState',
-                params: params
-            });
-        },
-        //课程上下移
-        swapCourseVideoSort:function (params) {
-            return Vue.http.ajax({
-                method: 'post',
-                url: basicUrl+'courseVideo/swapCourseVideoSort',
-                params: params
-            });
-        },
-        //课程顶置
-        stickCourseVideo:function (params) {
-            return Vue.http.ajax({
-                method: 'post',
-                url: basicUrl+'courseVideo/stickCourseVideo',
-                params: params
-            });
-        },
-        //获取相册的分页
-        getPhotoAlbumList:function (params) {
-            return Vue.http.ajax({
-                method: 'post',
-                url: basicUrl+'associationNews/getPhotoAlbumList',
-                params: params
-            });
-        },
-        //新建相册
-        addPhotoAlbum:function (params) {
-            return Vue.http.ajax({
-                method: 'post',
-                url: basicUrl+'associationNews/addPhotoAlbum',
-                params: params
-            });
-        },
-        //移除相册
-        removePhotoAlbum:function (params) {
-            return Vue.http.ajax({
-                method: 'post',
-                url: basicUrl+'associationNews/removePhotoAlbum',
-                params: params
-            });
-        },
-        //获取单个相册的信息
-        getPhotoAlbumInfo:function (params) {
-            return Vue.http.ajax({
-                method: 'post',
-                url: basicUrl+'associationNews/getPhotoAlbumInfo',
-                params: params
-            });
-        },
-        //上传照片
-        insertPhotoIntoAlbum:function (params) {
-            return Vue.http.ajax({
-                method: 'post',
-                url: basicUrl+'associationNews/insertPhotoIntoAlbum',
-                params: params
-            });
-        },
-        //移除照片
-        removePhotoFromAlbum:function (params) {
-            return Vue.http.ajax({
-                method: 'post',
-                url: basicUrl+'associationNews/removePhotoFromAlbum',
-                params: params
-            });
-        },
-        //上传富文本图片
-        uploadPic:function (params) {
-            return Vue.http.ajax({
-                method: 'post',
-                url: basicUrl+'associationNews/addContentPicture',
+                url: basicUrl+'/banner/addGame',
+                type:'formData',
                 params: params
             });
         },

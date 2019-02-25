@@ -98,7 +98,7 @@
                     {
                         code:'03',
                         icon: '#icon-iconfontyouxihudong',
-                        index: '/videoAdmin',
+                        index: '/gameAdmin',
                         title: '游戏管理',
                     },
                 ],
