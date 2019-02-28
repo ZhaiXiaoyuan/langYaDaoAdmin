@@ -25,29 +25,9 @@ export default new Router({
                     component: resolve => require(['../page/platform/GameAdmin.vue'], resolve)
                 },
                 {
-                    path: '/dynamicAdmin',
-                    name:'dynamicAdmin',
-                    component: resolve => require(['../page/dynamic/DynamicAdmin.vue'], resolve)
-                },
-                {
-                    path: '/videoAdmin',
-                    name:'videoAdmin',
-                    component: resolve => require(['../page/video/VideoAdmin.vue'], resolve)
-                },
-                {
-                    path: '/memberAdmin',
-                    name:'memberAdmin',
-                    component: resolve => require(['../page/member/MemberAdmin.vue'], resolve)
-                },
-                {
-                    path: '/galleryAdmin',
-                    name:'galleryAdmin',
-                    component: resolve => require(['../page/gallery/GalleryAdmin.vue'], resolve)
-                },
-                {
-                    path: '/setPassword',
-                    name:'setPassword',
-                    component: resolve => require(['../page/account/SetPassword.vue'], resolve)
+                    path: '/memberPlanAdmin',
+                    name:'memberPlanAdmin',
+                    component: resolve => require(['../page/platform/MemberPlanAdmin.vue'], resolve)
                 },
             ]
         },

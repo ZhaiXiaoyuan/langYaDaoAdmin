@@ -92,6 +92,11 @@
                                 code:'021',
                                 index: '/bannerAdmin',
                                 title: 'banner管理',
+                            },
+                            {
+                                code:'022',
+                                index: '/memberPlanAdmin',
+                                title: '会员计划管理',
                             }
                         ],
                     },

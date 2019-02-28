@@ -57,14 +57,11 @@
         </div>
 
 
-        <el-dialog :title="curEntry?'编辑游戏':'新增游戏'" class="edit-dialog" :visible.sync="formModalFlag" v-if="formModalFlag" width="60%" :close-on-click-modal="false">
+        <el-dialog :title="curEntry?'编辑会员计划':'新增会员'" class="edit-dialog" :visible.sync="formModalFlag" v-if="formModalFlag" width="50%" :close-on-click-modal="false">
             <div class="dialog-body">
                 <div style="width: 80%;">
                     <el-form ref="form" :model="form" label-width="100px">
-                        <el-form-item label="序号：" prop="headline" v-if="curEntry">
-                            <span>{{form.index+1}}</span>
-                        </el-form-item>
-                        <el-form-item label="游戏头图：" prop="cover">
+                        <el-form-item label="会员图片：" prop="cover">
                             <div class="cm-pic-uploader" :class="{'anew':form.cover}">
                                 <div class="wrapper">
                                     <img :src="form.file?form.cover:basicConfig.coverBasicUrl+form.cover" v-if="form.cover">
@@ -77,14 +74,43 @@
                               <!--  <p class="tips">上传图片建议比例为1920*320，格式为jpg、png，大小不超过10M</p>-->
                             </div>
                         </el-form-item>
-                        <el-form-item label="游戏名称：" prop="gameName">
-                            <el-input v-model="form.gameName" placeholder="请输入游戏名称"></el-input>
+                        <el-form-item label="会员名称：" prop="vipName">
+                            <el-input v-model="form.vipName" placeholder="请输入会员名称"></el-input>
                         </el-form-item>
-                        <el-form-item label="游戏链接：" prop="gameUrl">
-                            <el-input v-model="form.gameUrl" placeholder="请输入游戏链接"></el-input>
+                        <el-form-item label="会员价格：" prop="price">
+                            <el-input v-model="form.price" placeholder="请输入会员价格" style="width: 150px;"></el-input>
+                            <span class="unit">￥</span>
                         </el-form-item>
-                        <el-form-item label="配置链接：" prop="configUrl">
-                            <el-input v-model="form.configUrl" placeholder="请舒润配置链接"></el-input>
+                        <el-form-item label="会员等级：" prop="vipLevel">
+                            <el-select v-model="form.vipLevel" placeholder="请选择会员等级" style="width: 150px;">
+                                <el-option :label="i" v-for="i in 30" :value="i" :key="i"></el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="会员权益：" prop="">
+                            <div>
+                                <el-switch
+                                    v-model="form.buyGiveFlag"
+                                    active-text="购买即送琅琊豆">
+                                </el-switch>
+                                <el-input v-model="form.giftLangyaCoin" size="mini" style="width: 50px;"></el-input>
+                            </div>
+                            <div>
+                                <el-switch
+                                    v-model="form.DailyGiveFlag"
+                                    active-text="每天赠送琅琊豆">
+                                </el-switch>
+                                <el-input v-model="form.dailyGiftLangyaCoin" size="mini" style="width: 50px;"></el-input>
+                            </div>
+                            <div>
+                                <el-switch
+                                    v-model="form.kick"
+                                    active-text="可踢低级别会员">
+                                </el-switch>
+                            </div>
+                        </el-form-item>
+                        <el-form-item label="有效期：" prop="day">
+                            <el-input v-model="form.day" placeholder="请输入有效期天数" style="width: 150px;"></el-input>
+                            <span class="unit">天</span>
                         </el-form-item>
                     </el-form>
                 </div>
@@ -301,7 +327,7 @@
             //
             this.getList();
             //
-           /* this.openFormModal();*/
+            this.openFormModal();
 
 
         },
