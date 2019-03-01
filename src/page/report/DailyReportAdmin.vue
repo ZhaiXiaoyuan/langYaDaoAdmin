@@ -7,26 +7,18 @@
             </el-breadcrumb>-->
         </div>
         <div class="container">
-            <el-row class="handle-box" type="flex" align="middle">
-               <!-- <el-col :span="8">
-                    <el-radio-group v-model="state" @change="getList()">
-                        <el-radio label="">全部</el-radio>
-                        <el-radio label="enable">未拉黑</el-radio>
-                        <el-radio label="disable">已拉黑</el-radio>
-                    </el-radio-group>
-                </el-col>-->
-                <el-col :span="12">
+          <!--  <el-row class="handle-box">
+                <el-col :span="14">
                     <el-input v-model="keyword" placeholder="输入搜索关键字" class="handle-input mr10"></el-input>
                     <el-button type="primary" icon="search" @click="getList()">搜索</el-button>
                 </el-col>
-            </el-row>
+            </el-row>-->
             <el-table :data="entryList" border style="width: 100%;" ref="multipleTable">
                 <el-table-column prop="user.id" label="用户ID" align="center"></el-table-column>
                 <el-table-column prop="user.name" label="昵称"  align="center"></el-table-column>
-                <el-table-column prop="user.phone" label="手机号"  align="center"></el-table-column>
-                <el-table-column label="微信绑定状态" align="center"  width="50">
+                <el-table-column label="性别" align="center" width="50">
                     <template slot-scope="scope">
-                        {{scope.row.user.wxOpenId?'已绑定':'未绑定'}}
+                        {{scope.row.user.gender=='male'?'男':'女'}}
                     </template>
                 </el-table-column>
                 <el-table-column label="注册时间" align="center" >
@@ -34,16 +26,29 @@
                         {{scope.row.user.registrationDate|formatDate('yyyy-MM-dd hh:mm:ss')}}
                     </template>
                 </el-table-column>
-                <el-table-column label="最近登录时间" align="center" >
+                <el-table-column label="最后登录时间" align="center" >
                     <template slot-scope="scope">
                         {{scope.row.user.lastLoginDate|formatDate('yyyy-MM-dd hh:mm:ss')}}
                     </template>
                 </el-table-column>
-                <el-table-column prop="" label="最近登陆IP"  align="center"></el-table-column>
-                <el-table-column prop="user.balance" label="琅琊豆余额"  align="center"  width="70"></el-table-column>
+                <el-table-column label="押金" align="center"  width="50">
+                    <template slot-scope="scope">
+                        {{scope.row.user.depositAmount}}
+                    </template>
+                </el-table-column>
+                <el-table-column prop="user.borrowingOrderCount" label="在途单数"  align="center"  width="70"></el-table-column>
+                <el-table-column prop="user.historyOrderCount" label="历史单数"  align="center"   width="70"></el-table-column>
+                <el-table-column prop="user.audioMember" label="有声会员剩余天数"  align="center"></el-table-column>
+                <el-table-column prop="user.historyPayCount" label="历史支付总额"  align="center"></el-table-column>
+                <el-table-column label="备注历史" align="center" >
+                    <template slot-scope="scope">
+                        {{scope.row.lastUserRemark.userRemarkList.length>0?scope.row.lastUserRemark.userRemarkList[0].content:'-'}}
+                    </template>
+                </el-table-column>
                 <el-table-column label="操作"  align="center">
                     <template slot-scope="scope">
-                        <span @click="openRemarkModal(null,scope.row)"  class="cm-btn cm-link-btn">拉黑用户</span>
+                        <span @click="openRemarkModal(null,scope.row)"  class="cm-btn cm-link-btn">添加备注</span>
+                        <span @click="getUserDetail(scope.row)" class="cm-btn cm-link-btn">查看详情</span>
                     </template>
                 </el-table-column>
             </el-table>
@@ -146,9 +151,9 @@
                 </div>
             </div>
         </el-dialog>
-        <el-dialog :title="curRemark?'拉黑用户':'拉黑用户'" class="edit-dialog" :visible.sync="remarkModalFlag" v-if="remarkModalFlag" width="40%">
+        <el-dialog :title="curRemark?'编辑备注':'添加备注'" class="edit-dialog" :visible.sync="remarkModalFlag" v-if="remarkModalFlag" width="40%">
             <div class="dialog-body">
-                <el-input type="textarea" v-model="remarkForm.remark" rows="8" placeholder="请输入拉黑用户原因"></el-input>
+                <el-input type="textarea" v-model="remarkForm.remark" rows="8"></el-input>
             </div>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="closeRemarkModal()">取 消</el-button>
@@ -183,7 +188,6 @@
                   pageSize:20,
                   total:0,
                 },
-                state:'enable',
                 keyword:null,
                 entryList:[],
                 curEntry:null,
@@ -227,23 +231,27 @@
             getList:function (pageIndex) {
                 this.pager.pageIndex=pageIndex?pageIndex:1;
                 let params={
-                    searchContent:this.keyword?this.keyword:'',
                     pageIndex:this.pager.pageIndex,
                     pageSize:this.pager.pageSize,
-                    state:this.state,
                 }
                 this.pager.loading=true;
-                Vue.api.getUserList({apiParams:params}).then((resp)=>{
+                Vue.api.getDailyReportData({apiParams:params}).then((resp)=>{
                     if(resp.respCode=='2000'){
                         let data=JSON.parse(resp.respMsg);
-                        let list=data.userList;
+                        let list=data;
+                        list.forEach((item,i)=>{
+                            item.lastUserRemark=JSON.parse(item.lastUserRemark)
+                        })
                         this.entryList=list;
                         this.pager.total=data.count;
                           console.log('this.entryList:',this.entryList);
                         //
                        /* this.getUserDetail(this.entryList[1]);*/
                     }
-                    this.pager.loading=false;
+                    let timeout=setTimeout(()=>{
+                        this.pager.loading=false;
+                        clearTimeout(timeout);
+                    },500)
                 });
             },
             getUserDetail:function (entry) {
@@ -261,6 +269,50 @@
                         this.getUserRemarkList();
                         console.log('user:',data);
                     }
+                });
+            },
+            getUserBabyList:function (pageIndex) {
+                this.babyPager.pageIndex=pageIndex?pageIndex:1;
+                let params={
+                    userId:this.curUser.id,
+                    pageIndex:this.babyPager.pageIndex,
+                    pageSize:this.babyPager.pageSize,
+                }
+                this.babyPager.loading=true;
+                Vue.api.getUserBabyList(params).then((resp)=>{
+                    if(resp.respCode=='2000'){
+                        let data=JSON.parse(resp.respMsg);
+                        let list=data.userBabyList;
+                        this.babyEntryList=list;
+                        this.babyPager.total=data.count;
+                        console.log('this.babyEntryList:',this.babyEntryList);
+                    }
+                    let timeout=setTimeout(()=>{
+                        this.babyPager.loading=false;
+                        clearTimeout(timeout);
+                    },500)
+                });
+            },
+            getUserRemarkList:function (pageIndex) {
+                this.remarkPager.pageIndex=pageIndex?pageIndex:1;
+                let params={
+                    userId:this.curUser.id,
+                    pageIndex:this.remarkPager.pageIndex,
+                    pageSize:this.remarkPager.pageSize,
+                }
+                this.remarkPager.loading=true;
+                Vue.api.getUserRemarkList(params).then((resp)=>{
+                    if(resp.respCode=='2000'){
+                        let data=JSON.parse(resp.respMsg);
+                        let list=data.userRemarkList;
+                        this.remarkEntryList=list;
+                        this.remarkPager.total=data.count;
+                        console.log('this.remarkEntryList:',this.remarkEntryList);
+                    }
+                    let timeout=setTimeout(()=>{
+                        this.remarkPager.loading=false;
+                        clearTimeout(timeout);
+                    },500)
                 });
             },
             openRemarkModal:function (entry,userEntry) {
@@ -281,24 +333,35 @@
             },
             saveRemark:function () {
                 if(!this.remarkForm.remark){
-                    Vue.operationFeedback({type:'warn',text:'请输入拉黑原因'});
+                    Vue.operationFeedback({type:'warn',text:'请输入备注'});
                     return;
                 }
-                let params={
-                    id:this.curEntry.user.id,
-                    state:'disable',
-                    remark:this.remarkForm.remark,
+                let fb=Vue.operationFeedback({text:'保存中...'});
+                if(this.curRemark){
+                    Vue.api.updateUserRemark({id:this.curRemark.id,content:this.remarkForm.remark}).then((resp)=>{
+                        if(resp.respCode=='2000'){
+                            this.getList(this.pager.pageIndex);
+                            this.curRemark.content=this.remarkForm.remark;
+                            fb.setOptions({type:'complete',text:'保存成功'});
+                            this.closeRemarkModal();
+                        }else{
+                            fb.setOptions({type:'warn',text:'保存失败，'+resp.respMsg});
+                        }
+                    });
+                }else{
+                    Vue.api.addUserRemark({userId:this.curEntry.user.id,content:this.remarkForm.remark}).then((resp)=>{
+                        if(resp.respCode=='2000'){
+                            this.getList(this.pager.pageIndex);
+                            if(this.remarkModalFlag){
+                                this.getUserRemarkList();
+                            }
+                            fb.setOptions({type:'complete',text:'保存成功'});
+                            this.closeRemarkModal();
+                        }else{
+                            fb.setOptions({type:'warn',text:'保存失败，'+resp.respMsg});
+                        }
+                    });
                 }
-                let fb=Vue.operationFeedback({text:'操作中...'});
-                Vue.api.updateUserState({apiParams:params}).then((resp)=>{
-                    if(resp.respCode=='2000'){
-                        this.getList(this.pager.pageIndex);
-                        fb.setOptions({type:'complete',text:'操作成功'});
-                        this.closeRemarkModal();
-                    }else{
-                        fb.setOptions({type:'warn',text:'操作失败，'+resp.respMsg});
-                    }
-                });
             },
             removeUserRemark:function (index) {
                 let fb=Vue.operationFeedback({text:'删除中...'});

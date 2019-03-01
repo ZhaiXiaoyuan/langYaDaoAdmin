@@ -63,45 +63,57 @@
             return {
                 pageName:null,
                 collapse: false,
+
                 itemsConfig:[
                     {
                         code:'01',
+                        icon: '#icon-tongji',
+                        index: '/dailyReportAdmin',
+                        title: '运营日报',
+                    },
+                    {
+                        code:'02',
                         icon: '#icon-kehu',
                         index: 'user',
                         title: '用户管理',
                         subs:[
                             {
-                                code:'011',
-                                index: '/memberAdmin',
+                                code:'021',
+                                index: '/customerAdmin',
                                 title: '用户管理',
                             },
                             {
-                                code:'012',
-                                index: '/blackAdmin',
+                                code:'022',
+                                index: '/blacklistAdmin',
                                 title: '黑名单管理',
                             }
                         ],
                     },
                     {
-                        code:'02',
+                        code:'03',
                         icon: '#icon-ico_AD',
                         index: 'platform',
                         title: '平台管理',
                         subs:[
                             {
-                                code:'021',
+                                code:'031',
                                 index: '/bannerAdmin',
                                 title: 'banner管理',
                             },
                             {
-                                code:'022',
+                                code:'032',
                                 index: '/memberPlanAdmin',
                                 title: '会员计划管理',
+                            },
+                            {
+                                code:'033',
+                                index: '/giftAdmin',
+                                title: '礼物管理',
                             }
                         ],
                     },
                     {
-                        code:'03',
+                        code:'04',
                         icon: '#icon-iconfontyouxihudong',
                         index: '/gameAdmin',
                         title: '游戏管理',

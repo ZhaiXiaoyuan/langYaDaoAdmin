@@ -15,6 +15,11 @@ export default new Router({
                     component: resolve => require(['../page/customer/CustomerAdmin.vue'], resolve)
                 },
                 {
+                    path: '/blacklistAdmin',
+                    name:'blacklistAdmin',
+                    component: resolve => require(['../page/customer/BlacklistAdmin.vue'], resolve)
+                },
+                {
                     path: '/bannerAdmin',
                     name:'bannerAdmin',
                     component: resolve => require(['../page/platform/BannerAdmin.vue'], resolve)
@@ -28,6 +33,16 @@ export default new Router({
                     path: '/memberPlanAdmin',
                     name:'memberPlanAdmin',
                     component: resolve => require(['../page/platform/MemberPlanAdmin.vue'], resolve)
+                },
+                {
+                    path: '/dailyReportAdmin',
+                    name:'dailyReportAdmin',
+                    component: resolve => require(['../page/report/DailyReportAdmin.vue'], resolve)
+                },
+                {
+                    path: '/giftAdmin',
+                    name:'giftAdmin',
+                    component: resolve => require(['../page/platform/GiftAdmin.vue'], resolve)
                 },
             ]
         },
