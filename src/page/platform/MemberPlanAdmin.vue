@@ -84,15 +84,15 @@
                         <el-form-item label="会员权益：" prop="">
                             <div>
                                 <el-switch
-                                    v-model="form.buyGiveFlag"
-                                    active-text="购买即送琅琊豆">
+                                    v-model="form.giftLangyaCoinState"
+                                    active-text="购买即送琅琊豆"  active-value="enable" inactive-value="disable">
                                 </el-switch>
                                 <el-input v-model="form.giftLangyaCoin" size="mini" style="width: 50px;"></el-input>
                             </div>
                             <div>
                                 <el-switch
-                                    v-model="form.dailyGiveFlag"
-                                    active-text="每天赠送琅琊豆">
+                                    v-model="form.dailyGiftLangyaCoinState"
+                                    active-text="每天赠送琅琊豆"  active-value="enable" inactive-value="disable">
                                 </el-switch>
                                 <el-input v-model="form.dailyGiftLangyaCoin" size="mini" style="width: 50px;"></el-input>
                             </div>
@@ -171,7 +171,7 @@
                 Vue.api.getMemberPlanList({apiParams:params}).then((resp)=>{
                     if(resp.respCode=='2000'){
                         let data=JSON.parse(resp.respMsg);
-                        let list=data.VipTypeList;
+                        let list=data.vipTypeList;
                         this.entryList=list;
                         console.log('test:',this.entryList);
                         this.pager.total=data.count;
@@ -189,7 +189,7 @@
                 if(index!=undefined){
                     this.curEntry=this.entryList[index];
                     this.curEntry.index=index;
-                    this.form={...this.form,...this.curEntry,cover:this.curEntry.vipPic}
+                    this.form={...this.form,...this.curEntry,cover:this.curEntry.vipPic,price:this.curEntry.price/100}
                 }
                 this.formModalFlag=true;
             },
@@ -200,8 +200,8 @@
                 this.form={
                     cover:null,
                     file:null,
-                    buyGiveFlag:true,
-                    dailyGiveFlag:true,
+                    giftLangyaCoinState:'disable',
+                    dailyGiftLangyaCoinState:'disable',
                     kick:'enable',
                 };
                 this.$refs['form']&&this.$refs['form'].resetFields();
@@ -227,11 +227,11 @@
                     Vue.operationFeedback({type:'warn',text:'请选择会员等级'});
                     return;
                 }
-                if(this.form.buyGiveFlag&&(!this.form.giftLangyaCoin||!regex.pInt.test(this.form.giftLangyaCoin))){
+                if(this.form.giftLangyaCoinState=='enable'&&(!this.form.giftLangyaCoin||!regex.pInt.test(this.form.giftLangyaCoin))){
                     Vue.operationFeedback({type:'warn',text:'购买即送琅琊豆的数值有误，'+regex.pIntAlert});
                     return;
                 }
-                if(this.form.dailyGiveFlag&&(!this.form.dailyGiftLangyaCoin||!regex.pInt.test(this.form.dailyGiftLangyaCoin))){
+                if(this.form.dailyGiftLangyaCoinState=='enable'&&(!this.form.dailyGiftLangyaCoin||!regex.pInt.test(this.form.dailyGiftLangyaCoin))){
                     Vue.operationFeedback({type:'warn',text:'每天赠送琅琊豆数值有误，'+regex.pIntAlert});
                     return;
                 }
@@ -246,6 +246,8 @@
                     vipLevel:this.form.vipLevel,
                     giftLangyaCoin:this.form.giftLangyaCoin,
                     dailyGiftLangyaCoin:this.form.dailyGiftLangyaCoin,
+                    giftLangyaCoinState:this.form.giftLangyaCoinState,
+                    dailyGiftLangyaCoinState:this.form.dailyGiftLangyaCoinState,
                     kick:this.form.kick,
                     day:this.form.day,
                     describe:'会员计划',

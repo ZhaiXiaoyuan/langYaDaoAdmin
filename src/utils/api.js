@@ -118,7 +118,7 @@ export default {
         getGameList:function (params) {
             return Vue.http.ajax({
                 method: 'post',
-                url: basicUrl+'/banner/getGameList',
+                url: basicUrl+'/game/getGameList',
                 params: params
             });
         },
@@ -126,8 +126,49 @@ export default {
         addGame:function (params) {
             return Vue.http.ajax({
                 method: 'post',
-                url: basicUrl+'/banner/addGame',
+                url: basicUrl+'/game/addGame',
                 type:'formData',
+                params: params
+            });
+        },
+        //编辑游戏
+        updateGame:function (params) {
+            return Vue.http.ajax({
+                method: 'post',
+                url: basicUrl+'/game/updateGame',
+                type:'formData',
+                params: params
+            });
+        },
+        //删除游戏
+        removeGame:function (params) {
+            return Vue.http.ajax({
+                method: 'post',
+                url: basicUrl+'/game/removeGame',
+                params: params
+            });
+        },
+        //游戏上下架
+        updateGameState:function (params) {
+            return Vue.http.ajax({
+                method: 'post',
+                url: basicUrl+'/game/updateGameState',
+                params: params
+            });
+        },
+        //游戏上下排序
+        swapGameSort:function (params) {
+            return Vue.http.ajax({
+                method: 'post',
+                url: basicUrl+'/game/swapGameSort',
+                params: params
+            });
+        },
+        //游戏置顶
+        stickGame:function (params) {
+            return Vue.http.ajax({
+                method: 'post',
+                url: basicUrl+'/game/stickGame',
                 params: params
             });
         },
@@ -154,6 +195,14 @@ export default {
             return Vue.http.ajax({
                 method: 'post',
                 url: basicUrl+'/vipType/getVipTypeList',
+                params: params
+            });
+        },
+        //获取会员计划列表
+        removeMemberPlan:function (params) {
+            return Vue.http.ajax({
+                method: 'post',
+                url: basicUrl+'/vipType/removeVipType',
                 params: params
             });
         },
@@ -228,6 +277,14 @@ export default {
             return Vue.http.ajax({
                 method: 'post',
                 url: basicUrl+'/gift/swapGiftSort',
+                params: params
+            });
+        },
+        //更新全局
+        updateBaseGlobalVariable:function (params) {
+            return Vue.http.ajax({
+                method: 'post',
+                url: basicUrl+'/admin/updateBaseGlobalVariable',
                 params: params
             });
         },

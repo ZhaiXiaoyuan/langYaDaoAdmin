@@ -61,13 +61,13 @@
             <div class="dialog-body">
                 <div style="width: 80%;">
                     <el-form ref="form" :model="form" label-width="100px">
-                        <el-form-item label="序号：" prop="headline" v-if="curEntry">
+                        <el-form-item label="序号：" prop="headline" v-if="form.index!=undefined">
                             <span>{{form.index+1}}</span>
                         </el-form-item>
                         <el-form-item label="上传图片：" prop="cover">
                             <div class="cm-pic-uploader" :class="{'anew':form.cover}">
                                 <div class="wrapper">
-                                    <img :src="form.file?form.cover:basicConfig.coverBasicUrl+form.cover" style="width: 300px;" alt="">
+                                    <img :src="form.file?form.cover:basicConfig.coverBasicUrl+form.cover" v-if="form.cover" style="width: 300px;" alt="">
                                     <div class="btn-wrap">
                                         <input  type="file" id="file-input" accept="image/*" @change="selectFile()">
                                         <div class="cm-btn upload-btn"><i class="icon el-icon-plus"></i></div>
@@ -158,9 +158,9 @@
                 //
                 this.clearForm();
                 //
-                this.curEntry=this.entryList[index];
-                this.curEntry.index=index;
-                if(this.curEntry){
+                if(index!=undefined){
+                    this.curEntry=this.entryList[index];
+                    this.curEntry.index=index;
                     this.form={...this.curEntry,cover:this.curEntry.image}
                 }
                 this.formModalFlag=true;
@@ -187,7 +187,7 @@
                 let fb=Vue.operationFeedback({text:'保存中...'});
                 let params={
                     url:this.form.url,
-                    bannerType:'banner',
+                    bannerType:''
                 }
                 if(this.curEntry){
                     params.id=this.curEntry.id;

@@ -30,18 +30,30 @@
                         {{scope.$index+1}}
                     </template>
                 </el-table-column>
-                <el-table-column label="封面" align="center" width="500">
+                <el-table-column label="封面" align="center" width="60">
                     <template slot-scope="scope">
-                        <img :src="basicConfig.coverBasicUrl+scope.row.image" style="width: 400px;height: 100px;" alt="">
+                        <img :src="basicConfig.coverBasicUrl+scope.row.gamePic" style="width: 40px;height: 40px;" alt="">
                     </template>
                 </el-table-column>
-                <el-table-column prop="url" label="跳转链接"  align="center"></el-table-column>
+                <el-table-column prop="gameName" label="游戏名称"  align="center"></el-table-column>
+                <el-table-column prop="gameName" label="游戏状态"  align="center">
+                    <template slot-scope="scope">
+                        <span>{{scope.row.state=='enable'?'已上架':'已下架'}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="游戏配置"  align="center">
+                    <template slot-scope="scope">
+                        <a :href="scope.row.configUrl" target="_blank">进入游戏配置</a>
+                    </template>
+                </el-table-column>
                 <el-table-column label="操作"  align="center" width="300">
                     <template slot-scope="scope">
                         <span @click="openFormModal(scope.$index)" class="cm-btn cm-link-btn">编辑</span>
                         <span @click="swapSort(scope.$index,'up')" class="cm-btn cm-link-btn">上移</span>
                         <span @click="swapSort(scope.$index,'down')" class="cm-btn cm-link-btn">下移</span>
-                        <span @click="stickBanner(scope.$index)" class="cm-btn cm-link-btn">置顶</span>
+                        <span @click="stick(scope.$index)" class="cm-btn cm-link-btn">置顶</span>
+                        <span @click="setStatus(scope.$index,'enable')" v-if="scope.row.state=='disable'" class="cm-btn cm-link-btn">上架</span>
+                        <span @click="setStatus(scope.$index,'disable')"  v-if="scope.row.state=='enable'"  class="cm-btn cm-link-btn">下架</span>
                         <span @click="remove(scope.$index)" class="cm-btn cm-link-btn">删除</span>
                     </template>
                 </el-table-column>
@@ -61,7 +73,7 @@
             <div class="dialog-body">
                 <div style="width: 80%;">
                     <el-form ref="form" :model="form" label-width="100px">
-                        <el-form-item label="序号：" prop="headline" v-if="curEntry">
+                        <el-form-item label="序号：" prop="headline" v-if="form.index!=undefined">
                             <span>{{form.index+1}}</span>
                         </el-form-item>
                         <el-form-item label="游戏头图：" prop="cover">
@@ -84,7 +96,7 @@
                             <el-input v-model="form.gameUrl" placeholder="请输入游戏链接"></el-input>
                         </el-form-item>
                         <el-form-item label="配置链接：" prop="configUrl">
-                            <el-input v-model="form.configUrl" placeholder="请舒润配置链接"></el-input>
+                            <el-input v-model="form.configUrl" placeholder="请输入配置链接"></el-input>
                         </el-form-item>
                     </el-form>
                 </div>
@@ -145,20 +157,18 @@
                 let params={
                     pageIndex:this.pager.pageIndex,
                     pageSize:this.pager.pageSize,
-                    state:'enable'
+                    state:''
                 }
                 this.pager.loading=true;
                 Vue.api.getGameList({apiParams:params}).then((resp)=>{
                     if(resp.respCode=='2000'){
                         let data=JSON.parse(resp.respMsg);
-                        let list=data.bannerList?data.bannerList:[];
+                        let list=data.gameList;
                         this.entryList=list;
                         this.pager.total=data.count;
+                        console.log('this.entryList:',this.entryList);
                     }
-                    let timeout=setTimeout(()=>{
-                        this.pager.loading=false;
-                        clearTimeout(timeout);
-                    },500)
+                    this.pager.loading=false;
                 });
             },
             openFormModal:function (index) {
@@ -168,7 +178,7 @@
                 if(index!=undefined){
                     this.curEntry=this.entryList[index];
                     this.curEntry.index=index;
-                    this.form={...this.curEntry,cover:this.curEntry.image}
+                    this.form={...this.curEntry,cover:this.curEntry.gamePic}
                 }
                 this.formModalFlag=true;
             },
@@ -204,11 +214,12 @@
                     gameName:this.form.gameName,
                     gameUrl:this.form.gameUrl,
                     configUrl:this.form.configUrl,
-                    describe:'游戏',
+                    describe:'',
                 }
                 if(this.curEntry){
                     params.id=this.curEntry.id;
-                    Vue.api.updateBanner({apiParams:params,coverPicFile:this.form.file?this.form.file:null}).then((resp)=>{
+                    params.state=this.curEntry.state;
+                    Vue.api.updateGame({apiParams:params,coverPicFile:this.form.file?this.form.file:null}).then((resp)=>{
                         if(resp.respCode=='2000'){
                             this.getList(this.pager.pageIndex);
                             fb.setOptions({type:'complete',text:'保存成功'});
@@ -231,7 +242,7 @@
             },
             remove:function (index) {
                 let fb=Vue.operationFeedback({text:'删除中...'});
-                Vue.api.removeBanner({apiParams:{id:this.entryList[index].id}}).then((resp)=>{
+                Vue.api.removeGame({apiParams:{id:this.entryList[index].id}}).then((resp)=>{
                     if(resp.respCode=='2000'){
                         fb.setOptions({type:'complete',text:'删除成功'});
                         this.entryList.splice(index,1);
@@ -256,7 +267,7 @@
                 }
                 id2=this.entryList[index2].id;
                 let fb=Vue.operationFeedback({text:'操作中...'});
-                Vue.api.swapBannerSort({apiParams:{id1:id1,id2:id2,}}).then((resp)=>{
+                Vue.api.swapGameSort({apiParams:{id1:id1,id2:id2,}}).then((resp)=>{
                     if(resp.respCode=='2000'){
                         fb.setOptions({type:'complete',text:'操作成功'});
                         this.getList(this.pager.pageIndex);
@@ -265,9 +276,10 @@
                     }
                 });
             },
-            stickBanner:function (index) {
+
+            stick:function (index) {
                 let fb=Vue.operationFeedback({text:'操作中...'});
-                Vue.api.stickBanner({apiParams:{id:this.entryList[index].id}}).then((resp)=>{
+                Vue.api.stickGame({apiParams:{id:this.entryList[index].id}}).then((resp)=>{
                     if(resp.respCode=='2000'){
                         fb.setOptions({type:'complete',text:'操作成功'});
                         this.getList(this.pager.pageIndex);
@@ -291,6 +303,31 @@
                             this.form.file=data.blob;
                         }
                     });
+                });
+            },
+            setStatus:function (index,type) {
+                let entry=this.entryList[index];
+                let params={
+                    ...entry,
+                    state:type
+                }
+                let tips='';
+                switch (type){
+                    case 'enable':
+                        tips='上架';
+                        break;
+                    case 'disable':
+                        tips='下架';
+                        break
+                }
+                let fb=Vue.operationFeedback({text:tips+'中...'});
+                Vue.api.updateGameState({apiParams:{id:entry.id,state:type}}).then((resp)=>{
+                    if(resp.respCode=='2000'){
+                        fb.setOptions({type:'complete',text:tips+'成功'});
+                        entry.state=type;
+                    }else{
+                        fb.setOptions({type:'warn',text:tips+'失败，'+resp.respMsg});
+                    }
                 });
             },
         },
