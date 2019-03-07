@@ -19,8 +19,8 @@
                         {{scope.row.date|formatDate('yyyy-MM-dd')}}
                     </template>
                 </el-table-column>
-                <el-table-column prop="registerCount" label="注册人数"  align="center"  width="70"></el-table-column>
-                <el-table-column prop="loginCount" label="登录人数"  align="center"   width="70"></el-table-column>
+                <el-table-column prop="registerCount" label="注册人数"  align="center"></el-table-column>
+                <el-table-column prop="loginCount" label="登录人数"  align="center" ></el-table-column>
                 <el-table-column label="充值金额"  align="center">
                     <template slot-scope="scope">
                         {{scope.row.rechargeAmount/100}}
@@ -28,7 +28,7 @@
                 </el-table-column>
                 <el-table-column label="收取服务费（琅琊豆）" align="center" >
                     <template slot-scope="scope">
-                        {{scope.row.brokerage}}(￥{{scope.row.brokerage}})
+                        {{scope.row.brokerage}}(￥{{(scope.row.brokerage/langyaCoinPerYuan).toFixed(2)}})
                     </template>
                 </el-table-column>
             </el-table>
@@ -70,6 +70,7 @@
                   total:0,
                 },
                 entryList:[],
+                langyaCoinPerYuan:1,
             }
         },
         created(){
@@ -90,8 +91,14 @@
                         let list=data.outcomesList;
                         this.entryList=list;
                         this.pager.total=data.count;
-                          console.log('this.entryList:',this.entryList);
                         //
+                        Vue.api.getBaseGlobalVariable({apiParams:{}}).then((resp)=>{
+                            if(resp.respCode=='2000'){
+                                let data=JSON.parse(resp.respMsg);
+                                this.langyaCoinPerYuan=data.langyaCoinPerYuan;
+                            }
+                            this.pager.loading=false;
+                        });
                     }
                     this.pager.loading=false;
                 });

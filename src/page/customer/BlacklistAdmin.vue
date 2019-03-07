@@ -31,15 +31,15 @@
                 </el-table-column>
                 <el-table-column label="注册时间" align="center" >
                     <template slot-scope="scope">
-                        {{scope.row.user.registrationDate|formatDate('yyyy-MM-dd hh:mm:ss')}}
+                        {{scope.row.user.createdAt|formatDate('yyyy-MM-dd hh:mm:ss')}}
                     </template>
                 </el-table-column>
                 <el-table-column label="最近登录时间" align="center" >
                     <template slot-scope="scope">
-                        {{scope.row.user.lastLoginDate|formatDate('yyyy-MM-dd hh:mm:ss')}}
+                        <span v-if="scope.row.user.lastLoginTime"> {{scope.row.user.lastLoginTime|formatDate('yyyy-MM-dd hh:mm:ss')}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column prop="" label="最近登陆IP"  align="center"></el-table-column>
+                <el-table-column prop="user.lastLocation" label="最近登陆IP"  align="center"></el-table-column>
                 <el-table-column prop="user.remark" label="拉黑原因"  align="center"  width="200"></el-table-column>
                 <el-table-column label="操作"  align="center">
                     <template slot-scope="scope">

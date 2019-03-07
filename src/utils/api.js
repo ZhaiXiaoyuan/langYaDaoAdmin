@@ -280,7 +280,15 @@ export default {
                 params: params
             });
         },
-        //更新全局
+        //获取基本配置
+        getBaseGlobalVariable:function (params) {
+            return Vue.http.ajax({
+                method: 'post',
+                url: basicUrl+'/admin/getBaseGlobalVariable',
+                params: params
+            });
+        },
+        //更新基本配置
         updateBaseGlobalVariable:function (params) {
             return Vue.http.ajax({
                 method: 'post',

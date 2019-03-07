@@ -109,7 +109,12 @@
                                 code:'033',
                                 index: '/giftAdmin',
                                 title: '礼物管理',
-                            }
+                            },
+                            {
+                                code:'034',
+                                index: '/basicConfigAdmin',
+                                title: '基础配置',
+                            },
                         ],
                     },
                     {

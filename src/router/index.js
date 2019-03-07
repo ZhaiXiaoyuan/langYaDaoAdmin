@@ -44,6 +44,11 @@ export default new Router({
                     name:'giftAdmin',
                     component: resolve => require(['../page/platform/GiftAdmin.vue'], resolve)
                 },
+                {
+                    path: '/basicConfigAdmin',
+                    name:'basicConfigAdmin',
+                    component: resolve => require(['../page/platform/BasicConfigAdmin.vue'], resolve)
+                },
             ]
         },
         {

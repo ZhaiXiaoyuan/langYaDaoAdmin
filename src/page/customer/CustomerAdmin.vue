@@ -26,20 +26,20 @@
                 <el-table-column prop="user.phone" label="手机号"  align="center"></el-table-column>
                 <el-table-column label="微信绑定状态" align="center"  width="50">
                     <template slot-scope="scope">
-                        {{scope.row.user.wxOpenId?'已绑定':'未绑定'}}
+                        {{scope.row.wechatBind=='true'?'已绑定':'未绑定'}}
                     </template>
                 </el-table-column>
                 <el-table-column label="注册时间" align="center" >
                     <template slot-scope="scope">
-                        {{scope.row.user.registrationDate|formatDate('yyyy-MM-dd hh:mm:ss')}}
+                        {{scope.row.user.createdAt|formatDate('yyyy-MM-dd hh:mm:ss')}}
                     </template>
                 </el-table-column>
                 <el-table-column label="最近登录时间" align="center" >
                     <template slot-scope="scope">
-                        {{scope.row.user.lastLoginDate|formatDate('yyyy-MM-dd hh:mm:ss')}}
+                        <span v-if="scope.row.user.lastLoginTime"> {{scope.row.user.lastLoginTime|formatDate('yyyy-MM-dd hh:mm:ss')}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column prop="" label="最近登陆IP"  align="center"></el-table-column>
+                <el-table-column prop="user.lastLocation" label="最近登陆IP"  align="center"></el-table-column>
                 <el-table-column prop="user.balance" label="琅琊豆余额"  align="center"  width="70"></el-table-column>
                 <el-table-column label="操作"  align="center">
                     <template slot-scope="scope">
