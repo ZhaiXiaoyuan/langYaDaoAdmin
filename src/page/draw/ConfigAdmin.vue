@@ -53,16 +53,16 @@
                                 <el-option label="琅琊豆" value="langyaCoin"></el-option>
                             </el-select>
                         </el-form-item>
-                        <el-form-item label="奖品：" prop="vipLevel" v-if="form.type=='vip'">
-                            <el-select v-model="form.vipLevel" placeholder="请选择会员名称" style="width: 150px;">
-                                <el-option :label="i" v-for="i in 30" :value="i" :key="i"></el-option>
+                        <el-form-item label="奖品：" prop="vipTypeId" v-if="form.type=='vip'">
+                            <el-select v-model="form.vipTypeId" placeholder="请选择会员计划名称" style="width: 150px;">
+                                <el-option :label="item.vipName" v-for="(item,index) in memberList" :value="item.id" :key="index"></el-option>
                             </el-select>
                         </el-form-item>
-                        <el-form-item label="奖品：" prop="vipName">
-                            <el-input v-model="form.vipName" placeholder="请输入琅琊豆数量"></el-input><span class="unit">琅琊豆</span>
+                        <el-form-item label="奖品：" prop="langyaCoin" v-if="form.type=='langyaCoin'">
+                            <el-input v-model="form.langyaCoin" placeholder="请输入琅琊豆数量" style="width: 150px;"></el-input><span class="unit">&nbsp;琅琊豆</span>
                         </el-form-item>
                         <el-form-item label="奖品名称：" prop="vipName">
-                            <el-input v-model="form.vipName" placeholder="请输入奖品名称"></el-input>
+                            <el-input v-model="form.name" placeholder="请输入奖品名称"></el-input>
                         </el-form-item>
                         <el-form-item label="奖品图片：" prop="cover">
                             <div class="cm-pic-uploader" :class="{'anew':form.cover}">
@@ -117,11 +117,9 @@
                   total:0,
                   loading:false
                 },
-                keyword:null,
                 entryList:[],
                 curEntry:null,
-
-
+                memberList:[],
 
                 formModalFlag:false,
                 form:{
@@ -148,13 +146,24 @@
                         this.entryList=list;
                         console.log('test:',this.entryList);
                         this.pager.total=data.count;
-                        //临时测试
-                        this.openFormModal(0);
                     }
                     let timeout=setTimeout(()=>{
                         this.pager.loading=false;
                         clearTimeout(timeout);
                     },500)
+                });
+            },
+            getMemberList:function (pageIndex) {
+                let params={
+                    pageIndex:1,
+                    pageSize:50,
+                }
+                this.pager.loading=true;
+                Vue.api.getMemberPlanList({apiParams:params}).then((resp)=>{
+                    if(resp.respCode=='2000'){
+                        this.memberList=JSON.parse(resp.respMsg).vipTypeList;
+                        console.log('this.memberList:',this.memberList);
+                    }
                 });
             },
             openFormModal:function (index) {
@@ -164,7 +173,7 @@
                 if(index!=undefined){
                     this.curEntry=this.entryList[index];
                     this.curEntry.index=index;
-                    this.form={...this.form,...this.curEntry,cover:this.curEntry.vipPic,price:this.curEntry.price/100}
+                    this.form={...this.form,...this.curEntry,cover:this.curEntry.prizePic}
                 }
                 this.formModalFlag=true;
             },
@@ -180,54 +189,41 @@
                 this.$refs['form']&&this.$refs['form'].resetFields();
             },
             save:function () {
+                if(!this.form.type){
+                    Vue.operationFeedback({type:'warn',text:'请选择奖品类型'});
+                    return;
+                }
+                if(this.form.type=='vip'&&!this.form.vipTypeId){
+                    Vue.operationFeedback({type:'warn',text:'请选择会员计划名称'});
+                    return;
+                }
+                if(this.form.type=='langyaCoin'&&(!this.form.langyaCoin||!regex.pInt.test(this.form.langyaCoin))){
+                    Vue.operationFeedback({type:'warn',text:'奖品琅琊豆数量输入有误，'+regex.pIntAlert});
+                    return;
+                }
+                if(!this.form.name){
+                    Vue.operationFeedback({type:'warn',text:'请输入奖品名称'});
+                    return;
+                }
                 if(!this.form.cover){
-                    Vue.operationFeedback({type:'warn',text:'请上传会员图片'});
+                    Vue.operationFeedback({type:'warn',text:'请上传奖品图片'});
                     return;
                 }
-                if(!this.form.vipName){
-                    Vue.operationFeedback({type:'warn',text:'请输入会员名称'});
-                    return;
-                }
-                if(!this.form.price){
-                    Vue.operationFeedback({type:'warn',text:'请输入会员价格'});
-                    return;
-                }
-                if(!regex.pNum.test(this.form.price)){
-                    Vue.operationFeedback({type:'warn',text:'会员价格输入有误，'+regex.pNumAlert});
-                    return;
-                }
-                if(!this.form.vipLevel){
-                    Vue.operationFeedback({type:'warn',text:'请选择会员等级'});
-                    return;
-                }
-                if(this.form.giftLangyaCoinState=='enable'&&(!this.form.giftLangyaCoin||!regex.pInt.test(this.form.giftLangyaCoin))){
-                    Vue.operationFeedback({type:'warn',text:'购买即送琅琊豆的数值有误，'+regex.pIntAlert});
-                    return;
-                }
-                if(this.form.dailyGiftLangyaCoinState=='enable'&&(!this.form.dailyGiftLangyaCoin||!regex.pInt.test(this.form.dailyGiftLangyaCoin))){
-                    Vue.operationFeedback({type:'warn',text:'每天赠送琅琊豆数值有误，'+regex.pIntAlert});
-                    return;
-                }
-                if(!this.form.day||!regex.pInt.test(this.form.day)){
-                    Vue.operationFeedback({type:'warn',text:'有效期天数数值有误，'+regex.pIntAlert});
+                if(!this.form.probability||this.form.probability>1){
+                    Vue.operationFeedback({type:'warn',text:'中奖概率数值有误，请输入小于1的小数'});
                     return;
                 }
                 let fb=Vue.operationFeedback({text:'保存中...'});
                 let params={
-                    vipName:this.form.vipName,
-                    price:this.form.price*100,
-                    vipLevel:this.form.vipLevel,
-                    giftLangyaCoin:this.form.giftLangyaCoin,
-                    dailyGiftLangyaCoin:this.form.dailyGiftLangyaCoin,
-                    giftLangyaCoinState:this.form.giftLangyaCoinState,
-                    dailyGiftLangyaCoinState:this.form.dailyGiftLangyaCoinState,
-                    kick:this.form.kick,
-                    day:this.form.day,
-                    describe:'会员计划',
+                    type:this.form.type,
+                    name:this.form.name,
+                    probability:this.form.probability,
+                    vipTypeId:this.form.vipTypeId?this.form.vipTypeId:'',
+                    langyaCoin:this.form.langyaCoin
                 }
                 if(this.curEntry){
                     params.id=this.curEntry.id;
-                    Vue.api.updateMemberPlan({apiParams:params,coverPicFile:this.form.file?this.form.file:null}).then((resp)=>{
+                    Vue.api.updateBonusLottery({apiParams:params,coverPicFile:this.form.file?this.form.file:null}).then((resp)=>{
                         if(resp.respCode=='2000'){
                             this.getList(this.pager.pageIndex);
                             fb.setOptions({type:'complete',text:'保存成功'});
@@ -236,64 +232,7 @@
                             fb.setOptions({type:'warn',text:'保存失败，'+resp.respMsg});
                         }
                     });
-                }else{
-                    Vue.api.addMemberPlan({apiParams:params,coverPicFile:this.form.file}).then((resp)=>{
-                        if(resp.respCode=='2000'){
-                            this.getList();
-                            fb.setOptions({type:'complete',text:'保存成功'});
-                            this.closeFormModal();
-                        }else{
-                            fb.setOptions({type:'warn',text:'保存失败，'+resp.respMsg});
-                        }
-                    });
                 }
-            },
-            remove:function (index) {
-                let fb=Vue.operationFeedback({text:'删除中...'});
-                Vue.api.removeMemberPlan({apiParams:{id:this.entryList[index].id}}).then((resp)=>{
-                    if(resp.respCode=='2000'){
-                        fb.setOptions({type:'complete',text:'删除成功'});
-                        this.entryList.splice(index,1);
-                        if(this.entryList.length==0){
-                            this.getList();
-                        }
-                    }else{
-                        fb.setOptions({type:'warn',text:'删除失败，'+resp.respMsg});
-                    }
-                });
-            },
-            swapSort:function (index,type) {
-                let id1=this.entryList[index].id;
-                let id2=null;
-                let index2=null;
-                if(type=='up'&&index>0){
-                    index2=index-1;
-                }else if(type=='down'&&index<this.entryList.length-1){
-                    index2=index+1;
-                }else{
-                    return;
-                }
-                id2=this.entryList[index2].id;
-                let fb=Vue.operationFeedback({text:'操作中...'});
-                Vue.api.swapBannerSort({apiParams:{id1:id1,id2:id2,}}).then((resp)=>{
-                    if(resp.respCode=='2000'){
-                        fb.setOptions({type:'complete',text:'操作成功'});
-                        this.getList(this.pager.pageIndex);
-                    }else{
-                        fb.setOptions({type:'warn',text:'操作失败，'+resp.respMsg});
-                    }
-                });
-            },
-            stickBanner:function (index) {
-                let fb=Vue.operationFeedback({text:'操作中...'});
-                Vue.api.stickBanner({apiParams:{id:this.entryList[index].id}}).then((resp)=>{
-                    if(resp.respCode=='2000'){
-                        fb.setOptions({type:'complete',text:'操作成功'});
-                        this.getList(this.pager.pageIndex);
-                    }else{
-                        fb.setOptions({type:'warn',text:'操作失败，'+resp.respMsg});
-                    }
-                });
             },
             selectFile:function () {
                 let file=document.getElementById('file-input').files[0];
@@ -319,6 +258,7 @@
             console.log('this.account:',this.account);
             //
             this.getList();
+            this.getMemberList();
             //
            /* this.openFormModal();*/
 

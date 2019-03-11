@@ -91,51 +91,69 @@
                     },
                     {
                         code:'03',
+                        icon: '#icon-dingdan',
+                        index: 'order',
+                        title: '订单管理',
+                        subs:[
+                            {
+                                code:'031',
+                                index: '/rechargeOrderAdmin',
+                                title: '充值订单',
+                            },
+                            {
+                                code:'032',
+                                index: '/vipOrderAdmin',
+                                title: '会员订单',
+                            },
+                        ],
+                    },
+                    {
+                        code:'04',
                         icon: '#icon-ico_AD',
                         index: 'platform',
                         title: '平台管理',
                         subs:[
                             {
-                                code:'031',
+                                code:'041',
                                 index: '/bannerAdmin',
                                 title: 'banner管理',
                             },
                             {
-                                code:'032',
+                                code:'042',
                                 index: '/memberPlanAdmin',
                                 title: '会员计划管理',
                             },
                             {
-                                code:'033',
+                                code:'043',
                                 index: '/giftAdmin',
                                 title: '礼物管理',
                             },
                             {
-                                code:'034',
+                                code:'044',
                                 index: '/basicConfigAdmin',
                                 title: '基础配置',
                             },
                         ],
                     },
                     {
-                        code:'04',
+                        code:'05',
                         icon: '#icon-iconfontyouxihudong',
                         index: '/gameAdmin',
                         title: '游戏管理',
                     },
                     {
-                        code:'05',
+                        code:'06',
                         icon: '#icon-ico_AD',
                         index: 'draw',
                         title: '转盘管理',
                         subs:[
                             {
-                                code:'051',
-                                index: '/configAdmin',
+                                code:'061',
+                                index: '/drawConfigAdmin',
                                 title: '基础配置',
                             },
                             {
-                                code:'052',
+                                code:'062',
                                 index: '/drawRecord',
                                 title: '中奖纪录',
                             },

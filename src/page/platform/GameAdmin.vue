@@ -86,7 +86,7 @@
                                         <span class="cm-btn cm-link-btn text-upload-btn">重新上传</span>
                                     </div>
                                 </div>
-                              <!--  <p class="tips">上传图片建议比例为1920*320，格式为jpg、png，大小不超过10M</p>-->
+                                <p class="tips">上传图片建议比例为220*160，格式为jpg、png，大小不超过10M</p>
                             </div>
                         </el-form-item>
                         <el-form-item label="游戏名称：" prop="gameName">
@@ -290,20 +290,20 @@
             },
             selectFile:function () {
                 let file=document.getElementById('file-input').files[0];
-                /*this.form.file=file;
+                this.form.file=file;
                 Vue.tools.fileToBlob(file,(data)=>{
                     this.form.cover=data;
-                })*/
-                Vue.tools.fileToBlob(file,(data)=>{
+                })
+              /*  Vue.tools.fileToBlob(file,(data)=>{
                     this.cropModal({
                         img:data,
-                        fixedNumber:[320,320],
+                        fixedNumber:[220,160],
                         ok:(data)=>{
                             this.form.cover=data.base64;
                             this.form.file=data.blob;
                         }
                     });
-                });
+                });*/
             },
             setStatus:function (index,type) {
                 let entry=this.entryList[index];

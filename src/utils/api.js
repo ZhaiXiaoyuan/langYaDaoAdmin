@@ -312,6 +312,23 @@ export default {
                 params: params
             });
         },
+        //更新抽奖配置
+        updateBonusLottery:function (params) {
+            return Vue.http.ajax({
+                method: 'post',
+                url: basicUrl+'/bonusLottery/updateBonusLottery',
+                type:'formData',
+                params: params
+            });
+        },
+        //获取充值订单
+        getRechargeOrderList:function (params) {
+            return Vue.http.ajax({
+                method: 'post',
+                url: basicUrl+'/rechargeOrder/getRechargeOrderList',
+                params: params
+            });
+        },
     }
   },
 
