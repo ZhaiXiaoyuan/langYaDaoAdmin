@@ -172,6 +172,14 @@ export default {
                 params: params
             });
         },
+        //获取会员计划
+        getMemberList:function (params) {
+            return Vue.http.ajax({
+                method: 'post',
+                url: basicUrl+'/vipType/getVipTypeList',
+                params: params
+            });
+        },
         //增加会员计划
         addMemberPlan:function (params) {
             return Vue.http.ajax({
@@ -293,6 +301,14 @@ export default {
             return Vue.http.ajax({
                 method: 'post',
                 url: basicUrl+'/admin/updateBaseGlobalVariable',
+                params: params
+            });
+        },
+        //获取抽奖配置
+        getBonusLotteryList:function (params) {
+            return Vue.http.ajax({
+                method: 'post',
+                url: basicUrl+'/bonusLottery/getBonusLotteryList',
                 params: params
             });
         },

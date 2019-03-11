@@ -49,6 +49,11 @@ export default new Router({
                     name:'basicConfigAdmin',
                     component: resolve => require(['../page/platform/BasicConfigAdmin.vue'], resolve)
                 },
+                {
+                    path: '/drawConfigAdmin',
+                    name:'drawConfigAdmin',
+                    component: resolve => require(['../page/draw/ConfigAdmin.vue'], resolve)
+                },
             ]
         },
         {

@@ -123,6 +123,24 @@
                         index: '/gameAdmin',
                         title: '游戏管理',
                     },
+                    {
+                        code:'05',
+                        icon: '#icon-ico_AD',
+                        index: 'draw',
+                        title: '转盘管理',
+                        subs:[
+                            {
+                                code:'051',
+                                index: '/configAdmin',
+                                title: '基础配置',
+                            },
+                            {
+                                code:'052',
+                                index: '/drawRecord',
+                                title: '中奖纪录',
+                            },
+                        ],
+                    },
                 ],
                 items: []
             }
