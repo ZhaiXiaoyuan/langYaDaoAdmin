@@ -59,6 +59,21 @@ export default new Router({
                     name:'rechargeOrderAdmin',
                     component: resolve => require(['../page/order/RechargeOrderAdmin.vue'], resolve)
                 },
+                {
+                    path: '/rateAdmin',
+                    name:'rateAdmin',
+                    component: resolve => require(['../page/zodiac/RateAdmin.vue'], resolve)
+                },
+                {
+                    path: '/roomAdmin',
+                    name:'roomAdmin',
+                    component: resolve => require(['../page/zodiac/RoomAdmin.vue'], resolve)
+                },
+                {
+                    path: '/zodiacBasicConfigAdmin',
+                    name:'zodiacBasicConfigAdmin',
+                    component: resolve => require(['../page/zodiac/BasicConfigAdmin.vue'], resolve)
+                },
             ]
         },
         {

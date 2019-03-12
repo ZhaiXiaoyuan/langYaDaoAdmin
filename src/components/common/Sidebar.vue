@@ -6,7 +6,7 @@
                 <template v-if="item.subs">
                     <el-submenu :index="item.index" :key="item.index" :popper-class="'sub-menu'">
                         <template slot="title" :class="'submenu'">
-                            <svg class="icon" aria-hidden="true">
+                            <svg class="icon" v-bind:style="item.style" aria-hidden="true">
                                 <use :xlink:href="item.icon"></use>
                             </svg>
                             <span slot="title">{{ item.title }}</span>
@@ -156,6 +156,30 @@
                                 code:'062',
                                 index: '/drawRecord',
                                 title: '中奖纪录',
+                            },
+                        ],
+                    },
+                    {
+                        code:'07',
+                        icon: '#icon-qianniu',
+                        index: 'zodiac',
+                        title: '生肖庄园',
+                        style:{width:'24px',height:'24px',margin:'0px 3px 0px -3px'},
+                        subs:[
+                            {
+                                code:'071',
+                                index: '/zodiacBasicConfigAdmin',
+                                title: '基础设定',
+                            },
+                            {
+                                code:'072',
+                                index: '/rateAdmin',
+                                title: '竞猜率设定',
+                            },
+                            {
+                                code:'073',
+                                index: '/roomAdmin',
+                                title: '房间管理',
                             },
                         ],
                     },

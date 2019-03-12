@@ -46,7 +46,7 @@ export default {
     }
 
       let basicUrl=Vue.appConfig.domain;
-
+      let basicUrl2=Vue.appConfig.domain2;
       function sessionInfo() {
           return{
               token:'',
@@ -326,6 +326,38 @@ export default {
             return Vue.http.ajax({
                 method: 'post',
                 url: basicUrl+'/rechargeOrder/getRechargeOrderList',
+                params: params
+            });
+        },
+        //获取游戏配置信息
+        getGameConfigInfo:function (params) {
+            return Vue.http.ajax({
+                method: 'post',
+                url: basicUrl2+'/game1Config/getGameConfigInfo',
+                params: params
+            });
+        },
+        //更新游戏赔率
+        updataRate:function (params) {
+            return Vue.http.ajax({
+                method: 'post',
+                url: basicUrl2+'/game1Config/updataRate',
+                params: params
+            });
+        },
+        //游戏房间设置
+        setRoomConfig:function (params) {
+            return Vue.http.ajax({
+                method: 'post',
+                url: basicUrl2+'/game1Config/setRoomConfig',
+                params: params
+            });
+        },
+        //基础设置
+        setBaseConfigg:function (params) {
+            return Vue.http.ajax({
+                method: 'post',
+                url: basicUrl2+'/game1Config/setBaseConfig',
                 params: params
             });
         },
