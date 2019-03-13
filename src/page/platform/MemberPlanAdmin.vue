@@ -168,7 +168,7 @@
                     pageSize:this.pager.pageSize,
                 }
                 this.pager.loading=true;
-                Vue.api.getMemberPlanList({apiParams:params}).then((resp)=>{
+                Vue.api.getVipTypeList({apiParams:params}).then((resp)=>{
                     if(resp.respCode=='2000'){
                         let data=JSON.parse(resp.respMsg);
                         let list=data.vipTypeList;

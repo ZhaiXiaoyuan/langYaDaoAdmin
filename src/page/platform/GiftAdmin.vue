@@ -30,15 +30,15 @@
                         {{scope.$index+1}}
                     </template>
                 </el-table-column>
-                <el-table-column label="礼物图片" align="center" width="500">
+                <el-table-column label="礼物图片" align="center" width="100">
                     <template slot-scope="scope">
-                        <img :src="basicConfig.coverBasicUrl+scope.row.image" style="width: 400px;height: 100px;" alt="">
+                        <img :src="basicConfig.coverBasicUrl+scope.row.giftPic" style="width: 40px;height: 40px;" alt="">
                     </template>
                 </el-table-column>
-                <el-table-column prop="url" label="礼物名称"  align="center"></el-table-column>
+                <el-table-column prop="giftName" label="礼物名称"  align="center"></el-table-column>
                 <el-table-column label="礼物价值" align="center">
                     <template slot-scope="scope">
-                        <span></span>
+                        <span>{{scope.row.langyaCoin}}琅琊豆</span>
                     </template>
                 </el-table-column>
                 <el-table-column label="操作"  align="center" width="300">
@@ -46,7 +46,6 @@
                         <span @click="openFormModal(scope.$index)" class="cm-btn cm-link-btn">编辑</span>
                         <span @click="swapSort(scope.$index,'up')" class="cm-btn cm-link-btn">上移</span>
                         <span @click="swapSort(scope.$index,'down')" class="cm-btn cm-link-btn">下移</span>
-                        <span @click="stickBanner(scope.$index)" class="cm-btn cm-link-btn">置顶</span>
                         <span @click="remove(scope.$index)" class="cm-btn cm-link-btn">删除</span>
                     </template>
                 </el-table-column>
@@ -62,28 +61,32 @@
         </div>
 
 
-        <el-dialog :title="curEntry?'编辑banner':'新增banner'" class="edit-dialog" :visible.sync="formModalFlag" v-if="formModalFlag" width="60%" :close-on-click-modal="false">
+
+        <el-dialog :title="curEntry?'编辑礼物':'新增礼物'" class="edit-dialog" :visible.sync="formModalFlag" v-if="formModalFlag" width="60%" :close-on-click-modal="false">
             <div class="dialog-body">
                 <div style="width: 80%;">
                     <el-form ref="form" :model="form" label-width="100px">
-                        <el-form-item label="序号：" prop="headline" v-if="curEntry">
+                        <el-form-item label="序号：" prop="headline" v-if="form.index!=undefined">
                             <span>{{form.index+1}}</span>
                         </el-form-item>
                         <el-form-item label="上传图片：" prop="cover">
                             <div class="cm-pic-uploader" :class="{'anew':form.cover}">
                                 <div class="wrapper">
-                                    <img :src="form.file?form.cover:basicConfig.coverBasicUrl+form.cover" style="width: 300px;" alt="">
+                                    <img :src="form.file?form.cover:basicConfig.coverBasicUrl+form.cover" v-if="form.cover" style="width: 300px;" alt="">
                                     <div class="btn-wrap">
                                         <input  type="file" id="file-input" accept="image/*" @change="selectFile()">
                                         <div class="cm-btn upload-btn"><i class="icon el-icon-plus"></i></div>
                                         <span class="cm-btn cm-link-btn text-upload-btn">重新上传</span>
                                     </div>
                                 </div>
-                                <p class="tips">上传图片建议比例为1920*320，格式为jpg、png，大小不超过10M</p>
+                               <!-- <p class="tips">上传图片建议比例为1920*320，格式为jpg、png，大小不超过10M</p>-->
                             </div>
                         </el-form-item>
-                        <el-form-item label="跳转链接：" prop="url">
-                            <el-input v-model="form.url" placeholder="非必填，此链接为空则无跳转"></el-input>
+                        <el-form-item label="礼物名称：" prop="url">
+                            <el-input v-model="form.url" placeholder="请输入礼物名称"></el-input>
+                        </el-form-item>
+                        <el-form-item label="礼物价值：" prop="url">
+                            <el-input v-model="form.url" placeholder="请输入礼物价值"></el-input><span class="unit">&nbsp;琅琊豆</span>
                         </el-form-item>
                     </el-form>
                 </div>
@@ -164,9 +167,9 @@
                 //
                 this.clearForm();
                 //
-                this.curEntry=this.entryList[index];
-                this.curEntry.index=index;
-                if(this.curEntry){
+                if(this.index!=undefined){
+                    this.curEntry=this.entryList[index];
+                    this.curEntry.index=index;
                     this.form={...this.curEntry,cover:this.curEntry.image}
                 }
                 this.formModalFlag=true;
@@ -247,17 +250,6 @@
                 id2=this.entryList[index2].id;
                 let fb=Vue.operationFeedback({text:'操作中...'});
                 Vue.api.swapBannerSort({apiParams:{id1:id1,id2:id2,}}).then((resp)=>{
-                    if(resp.respCode=='2000'){
-                        fb.setOptions({type:'complete',text:'操作成功'});
-                        this.getList(this.pager.pageIndex);
-                    }else{
-                        fb.setOptions({type:'warn',text:'操作失败，'+resp.respMsg});
-                    }
-                });
-            },
-            stickBanner:function (index) {
-                let fb=Vue.operationFeedback({text:'操作中...'});
-                Vue.api.stickBanner({apiParams:{id:this.entryList[index].id}}).then((resp)=>{
                     if(resp.respCode=='2000'){
                         fb.setOptions({type:'complete',text:'操作成功'});
                         this.getList(this.pager.pageIndex);

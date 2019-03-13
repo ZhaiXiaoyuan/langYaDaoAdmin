@@ -173,7 +173,7 @@ export default {
             });
         },
         //获取会员计划
-        getMemberList:function (params) {
+        getVipTypeList:function (params) {
             return Vue.http.ajax({
                 method: 'post',
                 url: basicUrl+'/vipType/getVipTypeList',
