@@ -281,7 +281,7 @@ export default {
             });
         },
         //礼物排序
-        swapGiftSort:function (params) {
+        stickGift:function (params) {
             return Vue.http.ajax({
                 method: 'post',
                 url: basicUrl+'/gift/swapGiftSort',

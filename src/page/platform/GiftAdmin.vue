@@ -62,7 +62,7 @@
 
 
 
-        <el-dialog :title="curEntry?'编辑礼物':'新增礼物'" class="edit-dialog" :visible.sync="formModalFlag" v-if="formModalFlag" width="60%" :close-on-click-modal="false">
+        <el-dialog :title="curEntry?'编辑礼物':'新增礼物'" class="edit-dialog" :visible.sync="formModalFlag" v-if="formModalFlag" width="40%" :close-on-click-modal="false">
             <div class="dialog-body">
                 <div style="width: 80%;">
                     <el-form ref="form" :model="form" label-width="100px">
@@ -72,7 +72,7 @@
                         <el-form-item label="上传图片：" prop="cover">
                             <div class="cm-pic-uploader" :class="{'anew':form.cover}">
                                 <div class="wrapper">
-                                    <img :src="form.file?form.cover:basicConfig.coverBasicUrl+form.cover" v-if="form.cover" style="width: 300px;" alt="">
+                                    <img :src="form.file?form.cover:basicConfig.coverBasicUrl+form.cover" v-if="form.cover" alt="">
                                     <div class="btn-wrap">
                                         <input  type="file" id="file-input" accept="image/*" @change="selectFile()">
                                         <div class="cm-btn upload-btn"><i class="icon el-icon-plus"></i></div>
@@ -82,11 +82,11 @@
                                <!-- <p class="tips">上传图片建议比例为1920*320，格式为jpg、png，大小不超过10M</p>-->
                             </div>
                         </el-form-item>
-                        <el-form-item label="礼物名称：" prop="url">
-                            <el-input v-model="form.url" placeholder="请输入礼物名称"></el-input>
+                        <el-form-item label="礼物名称：" prop="giftName">
+                            <el-input v-model="form.giftName" placeholder="请输入礼物名称"></el-input>
                         </el-form-item>
-                        <el-form-item label="礼物价值：" prop="url">
-                            <el-input v-model="form.url" placeholder="请输入礼物价值"></el-input><span class="unit">&nbsp;琅琊豆</span>
+                        <el-form-item label="礼物价值：" prop="langyaCoin">
+                            <el-input v-model="form.langyaCoin" placeholder="请输入礼物价值" style="width: 150px;"></el-input><span class="unit">&nbsp;琅琊豆</span>
                         </el-form-item>
                     </el-form>
                 </div>
@@ -157,20 +157,17 @@
                         console.log('this.entryList:',this.entryList);
                         this.pager.total=data.count;
                     }
-                    let timeout=setTimeout(()=>{
-                        this.pager.loading=false;
-                        clearTimeout(timeout);
-                    },500)
+                    this.pager.loading=false;
                 });
             },
             openFormModal:function (index) {
                 //
                 this.clearForm();
                 //
-                if(this.index!=undefined){
+                if(index!=undefined){
                     this.curEntry=this.entryList[index];
                     this.curEntry.index=index;
-                    this.form={...this.curEntry,cover:this.curEntry.image}
+                    this.form={...this.curEntry,cover:this.curEntry.giftPic}
                 }
                 this.formModalFlag=true;
             },
@@ -186,21 +183,25 @@
             },
             save:function () {
                 if(!this.form.cover){
-                    Vue.operationFeedback({type:'warn',text:'请上传封面'});
+                    Vue.operationFeedback({type:'warn',text:'请上传礼物图片'});
                     return;
                 }
-              /*  if(!this.form.url){
-                    Vue.operationFeedback({type:'warn',text:'请输入链接'});
+                if(!this.form.giftName){
+                    Vue.operationFeedback({type:'warn',text:'请输入礼物名称'});
                     return;
-                }*/
+                }
+                if(!this.form.langyaCoin||!regex.pInt.test(this.form.langyaCoin)){
+                    Vue.operationFeedback({type:'warn',text:'礼物价值数值有误，'+regex.pIntAlert});
+                    return;
+                }
                 let fb=Vue.operationFeedback({text:'保存中...'});
                 let params={
-                    url:this.form.url,
-                    bannerType:'banner',
+                    ...this.form,
+                    describe:'233'
                 }
                 if(this.curEntry){
                     params.id=this.curEntry.id;
-                    Vue.api.updateBanner({apiParams:params,coverPicFile:this.form.file?this.form.file:null}).then((resp)=>{
+                    Vue.api.updateGift({apiParams:params,coverPicFile:this.form.file?this.form.file:null}).then((resp)=>{
                         if(resp.respCode=='2000'){
                             this.getList(this.pager.pageIndex);
                             fb.setOptions({type:'complete',text:'保存成功'});
@@ -210,8 +211,7 @@
                         }
                     });
                 }else{
-                    console.log('this.form:',this.form);
-                    Vue.api.addBanner({apiParams:params,coverPicFile:this.form.file}).then((resp)=>{
+                    Vue.api.addGift({apiParams:params,coverPicFile:this.form.file}).then((resp)=>{
                         if(resp.respCode=='2000'){
                             /*this.getList();*/
                             fb.setOptions({type:'complete',text:'保存成功'});
@@ -224,7 +224,7 @@
             },
             remove:function (index) {
                 let fb=Vue.operationFeedback({text:'删除中...'});
-                Vue.api.removeBanner({apiParams:{id:this.entryList[index].id}}).then((resp)=>{
+                Vue.api.removeGift({apiParams:{id:this.entryList[index].id}}).then((resp)=>{
                     if(resp.respCode=='2000'){
                         fb.setOptions({type:'complete',text:'删除成功'});
                         this.entryList.splice(index,1);
@@ -249,7 +249,7 @@
                 }
                 id2=this.entryList[index2].id;
                 let fb=Vue.operationFeedback({text:'操作中...'});
-                Vue.api.swapBannerSort({apiParams:{id1:id1,id2:id2,}}).then((resp)=>{
+                Vue.api.stickGift({apiParams:{id1:id1,id2:id2,}}).then((resp)=>{
                     if(resp.respCode=='2000'){
                         fb.setOptions({type:'complete',text:'操作成功'});
                         this.getList(this.pager.pageIndex);
