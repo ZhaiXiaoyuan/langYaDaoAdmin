@@ -144,7 +144,8 @@
                 Vue.api.getBannerList({apiParams:params}).then((resp)=>{
                     if(resp.respCode=='2000'){
                         let data=JSON.parse(resp.respMsg);
-                        let list=data.bannerList;
+                        console.log('data:',data);
+                        let list=typeof data.bannerList=='string'?JSON.parse(data.bannerList):data.bannerList;
                         this.entryList=list;
                         this.pager.total=data.count;
                     }
@@ -204,7 +205,7 @@
                     console.log('this.form:',this.form);
                     Vue.api.addBanner({apiParams:params,coverPicFile:this.form.file}).then((resp)=>{
                         if(resp.respCode=='2000'){
-                            /*this.getList();*/
+                            this.getList();
                             fb.setOptions({type:'complete',text:'保存成功'});
                             this.closeFormModal();
                         }else{

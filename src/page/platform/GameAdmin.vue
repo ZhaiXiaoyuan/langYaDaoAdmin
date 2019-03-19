@@ -163,7 +163,7 @@
                 Vue.api.getGameList({apiParams:params}).then((resp)=>{
                     if(resp.respCode=='2000'){
                         let data=JSON.parse(resp.respMsg);
-                        let list=data.gameList;
+                        let list=typeof data.gameList=='string'?JSON.parse(data.gameList):data.gameList;
                         this.entryList=list;
                         this.pager.total=data.count;
                         console.log('this.entryList:',this.entryList);
