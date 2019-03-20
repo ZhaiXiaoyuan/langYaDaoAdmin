@@ -152,7 +152,7 @@
                 Vue.api.getGiftList({apiParams:params}).then((resp)=>{
                     if(resp.respCode=='2000'){
                         let data=JSON.parse(resp.respMsg);
-                        let list=data.giftList;
+                        let list=typeof data.giftList=='string'?JSON.parse(data.giftList):data.giftList;
                         this.entryList=list;
                         console.log('this.entryList:',this.entryList);
                         this.pager.total=data.count;
@@ -213,7 +213,7 @@
                 }else{
                     Vue.api.addGift({apiParams:params,coverPicFile:this.form.file}).then((resp)=>{
                         if(resp.respCode=='2000'){
-                            /*this.getList();*/
+                            this.getList();
                             fb.setOptions({type:'complete',text:'保存成功'});
                             this.closeFormModal();
                         }else{

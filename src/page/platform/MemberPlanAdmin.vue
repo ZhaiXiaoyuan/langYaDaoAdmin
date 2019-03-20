@@ -171,7 +171,7 @@
                 Vue.api.getVipTypeList({apiParams:params}).then((resp)=>{
                     if(resp.respCode=='2000'){
                         let data=JSON.parse(resp.respMsg);
-                        let list=data.vipTypeList;
+                        let list=typeof data.vipTypeList=='string'?JSON.parse(data.vipTypeList):data.vipTypeList;
                         this.entryList=list;
                         console.log('test:',this.entryList);
                         this.pager.total=data.count;
@@ -324,11 +324,11 @@
             },
             selectFile:function () {
                 let file=document.getElementById('file-input').files[0];
-                /*this.form.file=file;
+                this.form.file=file;
                 Vue.tools.fileToBlob(file,(data)=>{
                     this.form.cover=data;
-                })*/
-                Vue.tools.fileToBlob(file,(data)=>{
+                })
+               /* Vue.tools.fileToBlob(file,(data)=>{
                     this.cropModal({
                         img:data,
                         fixedNumber:[320,320],
@@ -337,7 +337,7 @@
                             this.form.file=data.blob;
                         }
                     });
-                });
+                });*/
             },
         },
         mounted () {

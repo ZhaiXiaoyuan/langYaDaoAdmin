@@ -30,32 +30,32 @@
                         <el-form-item label="筹码设定：">
                            <div class="input-row">
                                <span>筹码1</span>
-                               <div class="input-box">展示文本&nbsp;<el-input v-model="form.筹码1文本"   class="input-item" placeholder=""></el-input></div>
+                          <!--     <div class="input-box">展示文本&nbsp;<el-input v-model="form.筹码1文本"   class="input-item" placeholder=""></el-input></div>-->
                                <div class="input-box">面额&nbsp;<el-input v-model="form.筹码1"   class="input-item" placeholder=""></el-input><span class="unit">&nbsp;琅琊豆</span></div>
                            </div>
                             <div class="input-row">
                                 <span>筹码2</span>
-                                <div class="input-box">展示文本&nbsp;<el-input v-model="form.筹码2文本"   class="input-item" placeholder=""></el-input></div>
+                           <!--     <div class="input-box">展示文本&nbsp;<el-input v-model="form.筹码2文本"   class="input-item" placeholder=""></el-input></div>-->
                                 <div class="input-box">面额&nbsp;<el-input v-model="form.筹码2"   class="input-item" placeholder=""></el-input><span class="unit">&nbsp;琅琊豆</span></div>
                             </div>
                             <div class="input-row">
                                 <span>筹码3</span>
-                                <div class="input-box">展示文本&nbsp;<el-input v-model="form.筹码3文本"   class="input-item" placeholder=""></el-input></div>
+                               <!-- <div class="input-box">展示文本&nbsp;<el-input v-model="form.筹码3文本"   class="input-item" placeholder=""></el-input></div>-->
                                 <div class="input-box">面额&nbsp;<el-input v-model="form.筹码3"   class="input-item" placeholder=""></el-input><span class="unit">&nbsp;琅琊豆</span></div>
                             </div>
                             <div class="input-row">
                                 <span>筹码4</span>
-                                <div class="input-box">展示文本&nbsp;<el-input v-model="form.筹码4文本"   class="input-item" placeholder=""></el-input></div>
+                               <!-- <div class="input-box">展示文本&nbsp;<el-input v-model="form.筹码4文本"   class="input-item" placeholder=""></el-input></div>-->
                                 <div class="input-box">面额&nbsp;<el-input v-model="form.筹码4"   class="input-item" placeholder=""></el-input><span class="unit">&nbsp;琅琊豆</span></div>
                             </div>
                             <div class="input-row">
                                 <span>筹码5</span>
-                                <div class="input-box">展示文本&nbsp;<el-input v-model="form.筹码5文本"   class="input-item" placeholder=""></el-input></div>
+                            <!--    <div class="input-box">展示文本&nbsp;<el-input v-model="form.筹码5文本"   class="input-item" placeholder=""></el-input></div>-->
                                 <div class="input-box">面额&nbsp;<el-input v-model="form.筹码5"   class="input-item" placeholder=""></el-input><span class="unit">&nbsp;琅琊豆</span></div>
                             </div>
                             <div class="input-row">
                                 <span>筹码6</span>
-                                <div class="input-box">展示文本&nbsp;<el-input v-model="form.筹码6文本"   class="input-item" placeholder=""></el-input></div>
+                              <!--  <div class="input-box">展示文本&nbsp;<el-input v-model="form.筹码6文本"   class="input-item" placeholder=""></el-input></div>-->
                                 <div class="input-box">面额&nbsp;<el-input v-model="form.筹码6"   class="input-item" placeholder=""></el-input><span class="unit">&nbsp;琅琊豆</span></div>
                             </div>
                         </el-form-item>
@@ -145,10 +145,10 @@
                for(let i=1;i<7;i++){
                    let key1='筹码'+i+'文本';
                    let key2='筹码'+i;
-                   if(!this.form[key1]){
+                  /* if(!this.form[key1]){
                        Vue.operationFeedback({type:'warn',text:'请输入'+key1});
                        return;
-                   }
+                   }*/
                    if(!this.form[key2]){
                        Vue.operationFeedback({type:'warn',text:'请输入'+key2+'面额'});
                        return;
