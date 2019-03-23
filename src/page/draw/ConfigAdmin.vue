@@ -142,7 +142,7 @@
                 Vue.api.getBonusLotteryList({apiParams:params}).then((resp)=>{
                     if(resp.respCode=='2000'){
                         let data=JSON.parse(resp.respMsg);
-                        let list=data.bonusLotteryList;
+                        let list=typeof data.bonusLotteryList=='string'?JSON.parse(data.bonusLotteryList):data.bonusLotteryList;
                         this.entryList=list;
                         console.log('test:',this.entryList);
                         this.pager.total=data.count;
