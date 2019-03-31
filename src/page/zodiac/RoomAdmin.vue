@@ -155,7 +155,9 @@
                    }
                }
                this.form['房间名称']=this.type;
-               this.form['最大进入人数']=this.form['桌子数'*11];
+               this.form['最大进入人数']=this.form['桌子数']*11;
+               console.log('this.form:',this.form);
+              /* return;*/
                let params={configJSONObjectString:JSON.stringify(this.form),property:this.type+'配置'};
                let fb=Vue.operationFeedback({text:'保存中...'});
                Vue.api.setRoomConfig({apiParams:params}).then((resp)=>{

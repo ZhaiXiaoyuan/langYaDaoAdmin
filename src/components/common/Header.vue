@@ -8,7 +8,7 @@
         </div>
         <div class="user-info">
             <span class="greed"> 您好，管理员</span>
-            <el-button  size="mini" type="" class="logo-out-btn">
+            <el-button  size="mini" type="" class="logo-out-btn" @click="logout()">
                 退出登录
             </el-button>
         </div>
@@ -29,17 +29,15 @@
 
         },
         methods:{
-            handleCommand(command) {
-                if(command == 'loginout'){
-                    Vue.cookie.set('account','');
-                    let loginPage=localStorage.getItem('loginPage');
-                    this.$router.push({name:loginPage?loginPage:'login'});
-                }
+            logout(command) {
+                Vue.cookie.set('account','');
+                let loginPage=localStorage.getItem('loginPage');
+                this.$router.push({name:loginPage?loginPage:'login'});
             },
             collapseChage(){
                 this.collapse = !this.collapse;
                 bus.$emit('collapse', this.collapse);
-            }
+            },
         },
         created(){
            /* this.accountInfo=this.getAccountInfo();*/

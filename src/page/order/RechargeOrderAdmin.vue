@@ -14,23 +14,20 @@
                 </el-col>
             </el-row>-->
             <el-table :data="entryList" border style="width: 100%;" ref="multipleTable">
-                <el-table-column label="日期" align="center" >
+                <el-table-column label="订单生成时间" align="center" >
                     <template slot-scope="scope">
-                        {{scope.row.date|formatDate('yyyy-MM-dd')}}
+                        {{scope.row.createdAt|formatDate('yyyy-MM-dd hh:mm:ss')}}
                     </template>
                 </el-table-column>
-                <el-table-column prop="registerCount" label="注册人数"  align="center"></el-table-column>
-                <el-table-column prop="loginCount" label="登录人数"  align="center" ></el-table-column>
-                <el-table-column label="充值金额"  align="center">
+                <el-table-column prop="orderId" label="订单编号"  align="center"></el-table-column>
+                <el-table-column prop="langyaCoin" label="充值琅琊豆数量"  align="center" ></el-table-column>
+                <el-table-column label="订单金额"  align="center">
                     <template slot-scope="scope">
-                        {{scope.row.rechargeAmount/100}}
+                        ￥{{scope.row.amount/100}}
                     </template>
                 </el-table-column>
-                <el-table-column label="收取服务费（琅琊豆）" align="center" >
-                    <template slot-scope="scope">
-                        {{scope.row.brokerage}}(￥{{(scope.row.brokerage/langyaCoinPerYuan).toFixed(2)}})
-                    </template>
-                </el-table-column>
+                <el-table-column prop="userId" label="用户ID"  align="center"></el-table-column>
+                <el-table-column prop="" label="用户昵称"  align="center"></el-table-column>
             </el-table>
             <div class="pagination">
                 <el-pagination
@@ -90,7 +87,7 @@
                 Vue.api.getRechargeOrderList({apiParams:params}).then((resp)=>{
                     if(resp.respCode=='2000'){
                         let data=JSON.parse(resp.respMsg);
-                        let list=data.rechargeOrderList;
+                        let list=typeof data.rechargeOrderList=='string'?JSON.parse(data.rechargeOrderList):data.rechargeOrderList;
                         this.entryList=list;
                         this.pager.total=data.count;
                         console.log('this.entryList:',this.entryList);

@@ -329,6 +329,14 @@ export default {
                 params: params
             });
         },
+        //获取会员订单列表
+        getVipOrderList:function (params) {
+            return Vue.http.ajax({
+                method: 'post',
+                url: basicUrl+'/vipOrder/getVipOrderList',
+                params: params
+            });
+        },
         //获取游戏配置信息
         getGameConfigInfo:function (params) {
             return Vue.http.ajax({
@@ -358,6 +366,14 @@ export default {
             return Vue.http.ajax({
                 method: 'post',
                 url: basicUrl2+'/game1Config/setBaseConfig',
+                params: params
+            });
+        },
+        //获取抽奖记录
+        getBonusLotteryRecordList:function (params) {
+            return Vue.http.ajax({
+                method: 'post',
+                url: basicUrl+'/bonusLottery/getBonusLotteryRecordList',
                 params: params
             });
         },

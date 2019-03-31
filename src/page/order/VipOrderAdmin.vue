@@ -7,42 +7,32 @@
             </el-breadcrumb>-->
         </div>
         <div class="container">
-            <el-row class="handle-box">
-             <!--   <el-col :span="10">
+          <!--  <el-row class="handle-box">
+                <el-col :span="14">
                     <el-input v-model="keyword" placeholder="输入搜索关键字" class="handle-input mr10"></el-input>
                     <el-button type="primary" icon="search" @click="getList()">搜索</el-button>
-                </el-col>-->
-                <el-col :span="24" style="text-align: right;">
-                 <!--   <el-button type="primary" icon="el-icon-plus" @click="openFormModal()">
-                        新增
-                    </el-button>-->
-              <!--      <el-button type="primary" icon="el-icon-upload2">
-                        批量上架
-                    </el-button>
-                    <el-button type="primary" icon="el-icon-download">
-                        批量下架
-                    </el-button>-->
                 </el-col>
-            </el-row>
-            <el-table :data="entryList" border style="width: 100%;" ref="multipleTable" v-loading="pager.loading">
-                <el-table-column label="序号" align="center" width="50">
+            </el-row>-->
+            <el-table :data="entryList" border style="width: 100%;" ref="multipleTable">
+                <el-table-column label="订单生成时间" align="center" >
                     <template slot-scope="scope">
-                        {{scope.$index+1}}
+                        {{scope.row.createdAt|formatDate('yyyy-MM-dd hh:mm:ss')}}
                     </template>
                 </el-table-column>
-                <el-table-column prop="name" label="名称"  align="center"></el-table-column>
-                <el-table-column label="logo" align="center" width="60">
+                <el-table-column prop="orderId" label="订单编号"  align="center"></el-table-column>
+                <el-table-column prop="langyaCoin" label="商品名称"  align="center" ></el-table-column>
+                <el-table-column label="订单金额"  align="center">
                     <template slot-scope="scope">
-                        <img :src="basicConfig.coverBasicUrl+scope.row.logo" style="width: 40px;height: 40px;" alt="">
+                        ￥{{scope.row.amount/100}}
                     </template>
                 </el-table-column>
-                <el-table-column prop="regionName" label="地区"  align="center"></el-table-column>
-                <el-table-column label="操作"  align="center">
+              <!--  <el-table-column label="状态"  align="center">
                     <template slot-scope="scope">
-                        <span @click="openFormModal(scope.row)" class="cm-btn cm-link-btn">编辑</span>
-                        <span @click="remove(scope.$index)" class="cm-btn cm-link-btn">删除</span>
+                       {{scope.row.state}}
                     </template>
-                </el-table-column>
+                </el-table-column>-->
+                <el-table-column prop="userId" label="用户ID"  align="center"></el-table-column>
+                <el-table-column prop="" label="用户昵称"  align="center"></el-table-column>
             </el-table>
             <div class="pagination">
                 <el-pagination
@@ -59,25 +49,20 @@
 </template>
 <style scoped>
 
-
 </style>
 <script>
     import Vue from 'vue'
-
+    let XLSX = require('xlsx');
     export default {
         data() {
             return {
-                account:{},
                 pager:{
                   pageIndex:1,
                   pageSize:20,
                   total:0,
-                  loading:false
                 },
                 entryList:[],
-
-
-
+                langyaCoinPerYuan:1,
             }
         },
         created(){
@@ -88,34 +73,26 @@
             getList:function (pageIndex) {
                 this.pager.pageIndex=pageIndex?pageIndex:1;
                 let params={
-                    userId:'',
                     pageIndex:this.pager.pageIndex,
                     pageSize:this.pager.pageSize,
+                    userId:'',
+                    state:''
                 }
                 this.pager.loading=true;
-                Vue.api.getBonusLotteryRecordList({apiParams:params}).then((resp)=>{
+                Vue.api.getVipOrderList({apiParams:params}).then((resp)=>{
                     if(resp.respCode=='2000'){
                         let data=JSON.parse(resp.respMsg);
-                        console.log('data:',data);
-                        let list=data.memberOrganizationList;
+                        let list=typeof data.vipOrderList=='string'?JSON.parse(data.vipOrderList):data.vipOrderList;
                         this.entryList=list;
                         this.pager.total=data.count;
-                          console.log('this.entryList:',this.entryList);
+                        console.log('this.entryList:',this.entryList);
                     }
-                    let timeout=setTimeout(()=>{
-                        this.pager.loading=false;
-                        clearTimeout(timeout);
-                    },500)
+                    this.pager.loading=false;
                 });
             },
         },
         mounted () {
-            //
-            this.account=this.getAccountInfo();
-            console.log('this.account:',this.account);
-            //
             this.getList();
-
 
 
         },

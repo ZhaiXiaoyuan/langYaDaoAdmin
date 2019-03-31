@@ -55,9 +55,19 @@ export default new Router({
                     component: resolve => require(['../page/draw/ConfigAdmin.vue'], resolve)
                 },
                 {
+                    path: '/drawRecord',
+                    name:'drawRecord',
+                    component: resolve => require(['../page/draw/Record.vue'], resolve)
+                },
+                {
                     path: '/rechargeOrderAdmin',
                     name:'rechargeOrderAdmin',
                     component: resolve => require(['../page/order/RechargeOrderAdmin.vue'], resolve)
+                },
+                {
+                    path: '/vipOrderAdmin',
+                    name:'vipOrderAdmin',
+                    component: resolve => require(['../page/order/VipOrderAdmin.vue'], resolve)
                 },
                 {
                     path: '/rateAdmin',

@@ -139,8 +139,6 @@ export default {
               }
           },
         getAccountInfo:function () {
-              //临时测试
-            return;
             let account=Vue.cookie.get('account');
             if(account){
                 return JSON.parse(account);
