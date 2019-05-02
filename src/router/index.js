@@ -84,6 +84,11 @@ export default new Router({
                     name:'zodiacBasicConfigAdmin',
                     component: resolve => require(['../page/zodiac/BasicConfigAdmin.vue'], resolve)
                 },
+                {
+                    path: '/manorAdmin',
+                    name:'manorAdmin',
+                    component: resolve => require(['../page/manor/ManorAdmin.vue'], resolve)
+                },
             ]
         },
         {

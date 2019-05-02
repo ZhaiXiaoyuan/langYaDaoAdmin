@@ -47,6 +47,7 @@ export default {
 
       let basicUrl=Vue.appConfig.domain;
       let basicUrl2=Vue.appConfig.domain2;
+      let basicUrl3=Vue.appConfig.domain3;
       function sessionInfo() {
           return{
               token:'',
@@ -374,6 +375,38 @@ export default {
             return Vue.http.ajax({
                 method: 'post',
                 url: basicUrl+'/bonusLottery/getBonusLotteryRecordList',
+                params: params
+            });
+        },
+        //获取神兽列表
+        getAnimalList:function (params) {
+            return Vue.http.ajax({
+                method: 'post',
+                url: basicUrl3+'/pasture/getAnimalList',
+                params: params
+            });
+        },
+        //新增神兽
+        addAnimal:function (params) {
+            return Vue.http.ajax({
+                method: 'post',
+                url: basicUrl3+'/pasture/addAnimal',
+                params: params
+            });
+        },
+        //更新神兽
+        updateAnimal:function (params) {
+            return Vue.http.ajax({
+                method: 'post',
+                url: basicUrl3+'/pasture/updateAnimal',
+                params: params
+            });
+        },
+        //删除神兽
+        removeAnimal:function (params) {
+            return Vue.http.ajax({
+                method: 'post',
+                url: basicUrl3+'/pasture/removeAnimal',
                 params: params
             });
         },

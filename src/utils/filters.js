@@ -81,3 +81,23 @@ Vue.filter('ellipsis',function(txt,length){
     return txt;
 });
 
+/*神兽等级*/
+Vue.filter('beastLevel',function(str){
+    let result='';
+    switch (str){
+        case 'bronze':
+            result='青铜';
+            break;
+        case 'silver':
+            result='白银';
+            break;
+        case 'gold':
+            result='黄金';
+            break;
+        case 'diamond':
+            result='钻石';
+            break;
+    }
+    return result;
+});
+
