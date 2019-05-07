@@ -8,11 +8,11 @@
         </div>
         <div class="container">
             <el-row class="handle-box">
-                <el-col :span="24" style="text-align: right;">
+                <!--<el-col :span="24" style="text-align: right;">
                     <el-button type="primary" icon="el-icon-plus" @click="openFormModal()">
                         新增
                     </el-button>
-                </el-col>
+                </el-col>-->
             </el-row>
             <el-table :data="entryList" border style="width: 100%;" ref="multipleTable" v-loading="pager.loading">
                 <el-table-column label="序号" align="center" width="50">
@@ -63,7 +63,7 @@
                 <div>
                     <el-form ref="form" :model="form" label-width="100px">
                         <el-form-item label="神兽等级：" prop="vipLevel">
-                            <el-select v-model="form.level" placeholder="" style="width: 150px;">
+                            <el-select v-model="form.level" placeholder="" disabled style="width: 150px;">
                                 <el-option :label="item.label" v-for="(item,index) in levelOptions" :value="item.value" :key="index"></el-option>
                             </el-select>
                         </el-form-item>
