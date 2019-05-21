@@ -1,18 +1,9 @@
 <template>
     <div class="table">
         <div class="crumbs">
-          <!--  <el-breadcrumb separator="/">
-                <el-breadcrumb-item></el-breadcrumb-item>
-                <el-breadcrumb-item></el-breadcrumb-item>
-            </el-breadcrumb>-->
+
         </div>
         <div class="container">
-          <!--  <el-row class="handle-box">
-                <el-col :span="14">
-                    <el-input v-model="keyword" placeholder="输入搜索关键字" class="handle-input mr10"></el-input>
-                    <el-button type="primary" icon="search" @click="getList()">搜索</el-button>
-                </el-col>
-            </el-row>-->
             <el-table :data="entryList" border style="width: 100%;" ref="multipleTable">
                 <el-table-column label="订单生成时间" align="center" >
                     <template slot-scope="scope">
@@ -27,7 +18,7 @@
                     </template>
                 </el-table-column>
                 <el-table-column prop="userId" label="用户ID"  align="center"></el-table-column>
-                <el-table-column prop="" label="用户昵称"  align="center"></el-table-column>
+                <el-table-column prop="userName" label="用户昵称"  align="center"></el-table-column>
             </el-table>
             <div class="pagination">
                 <el-pagination
@@ -84,13 +75,20 @@
                     state:''
                 }
                 this.pager.loading=true;
+                this.entryList=[];
                 Vue.api.getRechargeOrderList({apiParams:params}).then((resp)=>{
                     if(resp.respCode=='2000'){
                         let data=JSON.parse(resp.respMsg);
                         let list=typeof data.rechargeOrderList=='string'?JSON.parse(data.rechargeOrderList):data.rechargeOrderList;
-                        this.entryList=list;
+                        list.forEach((item,i)=>{
+                            this.entryList.push(
+                                {
+                                    userName:item.userName,
+                                    ...item.rechargeOrder
+                                }
+                            );
+                        });
                         this.pager.total=data.count;
-                        console.log('this.entryList:',this.entryList);
                     }
                     this.pager.loading=false;
                 });

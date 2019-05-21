@@ -20,7 +20,7 @@
                     </template>
                 </el-table-column>
                 <el-table-column prop="orderId" label="订单编号"  align="center"></el-table-column>
-                <el-table-column prop="langyaCoin" label="商品名称"  align="center" ></el-table-column>
+                <el-table-column prop="vipTypeName" label="商品名称"  align="center" ></el-table-column>
                 <el-table-column label="订单金额"  align="center">
                     <template slot-scope="scope">
                         ￥{{scope.row.amount/100}}
@@ -32,7 +32,7 @@
                     </template>
                 </el-table-column>-->
                 <el-table-column prop="userId" label="用户ID"  align="center"></el-table-column>
-                <el-table-column prop="" label="用户昵称"  align="center"></el-table-column>
+                <el-table-column prop="userName" label="用户昵称"  align="center"></el-table-column>
             </el-table>
             <div class="pagination">
                 <el-pagination
@@ -79,11 +79,21 @@
                     state:''
                 }
                 this.pager.loading=true;
+                this.entryList=[];
                 Vue.api.getVipOrderList({apiParams:params}).then((resp)=>{
                     if(resp.respCode=='2000'){
                         let data=JSON.parse(resp.respMsg);
                         let list=typeof data.vipOrderList=='string'?JSON.parse(data.vipOrderList):data.vipOrderList;
-                        this.entryList=list;
+                        console.log('list:',list);
+                        list.forEach((item,i)=>{
+                            this.entryList.push(
+                                {
+                                    userName:item.userName,
+                                    ...item.vipOrder,
+                                    vipTypeName:item.vipTypeName,
+                                }
+                            );
+                        });
                         this.pager.total=data.count;
                         console.log('this.entryList:',this.entryList);
                     }

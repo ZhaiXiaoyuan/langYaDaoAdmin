@@ -236,7 +236,7 @@
                 Vue.api.getUserList({apiParams:params}).then((resp)=>{
                     if(resp.respCode=='2000'){
                         let data=JSON.parse(resp.respMsg);
-                        let list=data.userList;
+                        let list=typeof data.userList=='string'?JSON.parse(data.userList):data.userList;
                         this.entryList=list;
                         this.pager.total=data.count;
                           console.log('this.entryList:',this.entryList);

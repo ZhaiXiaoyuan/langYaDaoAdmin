@@ -181,11 +181,11 @@
                                 index: '/roomAdmin',
                                 title: '房间管理',
                             },
-                            {
+                          /*  {
                                 code:'074',
                                 index: '/manorAdmin',
                                 title: '我的庄园',
-                            },
+                            },*/
                         ],
                     },
                 ],
