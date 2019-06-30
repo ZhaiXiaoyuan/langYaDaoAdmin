@@ -26,7 +26,7 @@
                         {{scope.row.rechargeAmount/100}}
                     </template>
                 </el-table-column>
-                <el-table-column label="收取服务费（琅琊豆）" align="center" >
+                <el-table-column label="收取服务费（游戏币）" align="center" >
                     <template slot-scope="scope">
                         {{scope.row.brokerage}}(￥{{(scope.row.brokerage/langyaCoinPerYuan).toFixed(2)}})
                     </template>

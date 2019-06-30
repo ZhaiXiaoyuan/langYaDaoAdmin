@@ -27,17 +27,17 @@
                 </el-table-column>
                 <el-table-column label="动物价值"  align="center">
                     <template slot-scope="scope">
-                        <span>{{scope.row.langyaCoinPrice}}琅琊豆</span>
+                        <span>{{scope.row.langyaCoinPrice}}游戏币</span>
                     </template>
                 </el-table-column>
                 <el-table-column label="饲料价值"  align="center">
                     <template slot-scope="scope">
-                        <span>{{scope.row.fodderPrice}}琅琊豆</span>
+                        <span>{{scope.row.fodderPrice}}游戏币</span>
                     </template>
                 </el-table-column>
                 <el-table-column label="收成价值"  align="center">
                     <template slot-scope="scope">
-                        <span>{{scope.row.eggPrice}}琅琊豆</span>
+                        <span>{{scope.row.eggPrice}}游戏币</span>
                     </template>
                 </el-table-column>
                 <el-table-column label="操作"  align="center" width="300">
@@ -69,15 +69,15 @@
                         </el-form-item>
                         <el-form-item label="神兽价值：" prop="price">
                             <el-input v-model="form.langyaCoinPrice" placeholder="" style="width: 150px;"></el-input>
-                            <span class="unit">琅琊豆</span>
+                            <span class="unit">游戏币</span>
                         </el-form-item>
                         <el-form-item label="饲料价格：" prop="price">
                             <el-input v-model="form.fodderPrice" placeholder="" style="width: 150px;"></el-input>
-                            <span class="unit">琅琊豆</span>
+                            <span class="unit">游戏币</span>
                         </el-form-item>
                         <el-form-item label="收成价值：" prop="price">
                             <el-input v-model="form.eggPrice" placeholder="" style="width: 150px;"></el-input>
-                            <span class="unit">琅琊豆</span>
+                            <span class="unit">游戏币</span>
                         </el-form-item>
                     </el-form>
                 </div>

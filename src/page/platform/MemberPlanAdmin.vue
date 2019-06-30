@@ -28,8 +28,8 @@
                 <el-table-column prop="vipName" label="会员名称"  align="center"></el-table-column>
                 <el-table-column label="会员权益"  align="center">
                     <template slot-scope="scope">
-                        <p>购买即送琅琊豆{{scope.row.giftLangyaCoin}}</p>
-                        <p>每天赠送琅琊豆{{scope.row.dailyGiftLangyaCoin}}</p>
+                        <p>购买即送游戏币{{scope.row.giftLangyaCoin}}</p>
+                        <p>每天赠送游戏币{{scope.row.dailyGiftLangyaCoin}}</p>
                         <p v-if="scope.row.kick=='enable'">可踢低级别会员</p>
                     </template>
                 </el-table-column>
@@ -85,14 +85,14 @@
                             <div>
                                 <el-switch
                                     v-model="form.giftLangyaCoinState"
-                                    active-text="购买即送琅琊豆"  active-value="enable" inactive-value="disable">
+                                    active-text="购买即送游戏币"  active-value="enable" inactive-value="disable">
                                 </el-switch>
                                 <el-input v-model="form.giftLangyaCoin" size="mini" style="width: 50px;"></el-input>
                             </div>
                             <div>
                                 <el-switch
                                     v-model="form.dailyGiftLangyaCoinState"
-                                    active-text="每天赠送琅琊豆"  active-value="enable" inactive-value="disable">
+                                    active-text="每天赠送游戏币"  active-value="enable" inactive-value="disable">
                                 </el-switch>
                                 <el-input v-model="form.dailyGiftLangyaCoin" size="mini" style="width: 50px;"></el-input>
                             </div>
@@ -228,11 +228,11 @@
                     return;
                 }
                 if(this.form.giftLangyaCoinState=='enable'&&(!this.form.giftLangyaCoin||!regex.pInt.test(this.form.giftLangyaCoin))){
-                    Vue.operationFeedback({type:'warn',text:'购买即送琅琊豆的数值有误，'+regex.pIntAlert});
+                    Vue.operationFeedback({type:'warn',text:'购买即送游戏币的数值有误，'+regex.pIntAlert});
                     return;
                 }
                 if(this.form.dailyGiftLangyaCoinState=='enable'&&(!this.form.dailyGiftLangyaCoin||!regex.pInt.test(this.form.dailyGiftLangyaCoin))){
-                    Vue.operationFeedback({type:'warn',text:'每天赠送琅琊豆数值有误，'+regex.pIntAlert});
+                    Vue.operationFeedback({type:'warn',text:'每天赠送游戏币数值有误，'+regex.pIntAlert});
                     return;
                 }
                 if(!this.form.day||!regex.pInt.test(this.form.day)){

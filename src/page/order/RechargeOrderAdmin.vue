@@ -11,7 +11,7 @@
                     </template>
                 </el-table-column>
                 <el-table-column prop="orderId" label="订单编号"  align="center"></el-table-column>
-                <el-table-column prop="langyaCoin" label="充值琅琊豆数量"  align="center" ></el-table-column>
+                <el-table-column prop="langyaCoin" label="充值游戏币数量"  align="center" ></el-table-column>
                 <el-table-column label="订单金额"  align="center">
                     <template slot-scope="scope">
                         ￥{{scope.row.amount/100}}

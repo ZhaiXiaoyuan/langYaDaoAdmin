@@ -13,10 +13,10 @@
                             <el-input v-model="form.langyaCoinName" placeholder="请输入虚拟币名称"></el-input>
                         </el-form-item>
                         <el-form-item label="充值兑换比例：">
-                            <span class="unit">1元=&nbsp;</span><el-input v-model="form.langyaCoinPerYuan" placeholder="请输入充值兑换比例" style="width: 150px;"></el-input><span class="unit">&nbsp;个琅琊豆</span>
+                            <span class="unit">1元=&nbsp;</span><el-input v-model="form.langyaCoinPerYuan" placeholder="请输入充值兑换比例" style="width: 150px;"></el-input><span class="unit">&nbsp;个游戏币</span>
                         </el-form-item>
                         <el-form-item label="积分设定：">
-                          <el-input v-model="form.langyaCoinPerBonus" placeholder="请输入积分设定" style="width: 150px;"></el-input><span class="unit">&nbsp;个琅琊豆=1积分</span>
+                          <el-input v-model="form.langyaCoinPerBonus" placeholder="请输入积分设定" style="width: 150px;"></el-input><span class="unit">&nbsp;个游戏币=1积分</span>
                         </el-form-item>
                         <el-form-item label="每次抽奖所需积分数：">
                             <el-input v-model="form.bonusLotteryPrice" placeholder="请输入每次抽奖所需积分数"></el-input>

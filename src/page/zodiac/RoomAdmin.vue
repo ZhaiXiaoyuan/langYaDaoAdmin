@@ -16,47 +16,47 @@
                 <div style="width: 580px;margin: 20px auto 30px auto;">
                     <el-form label-width="160px">
                         <el-form-item label="进入门槛：">
-                            <span class="unit">大于&nbsp;</span><el-input v-model="form.进入门槛"  class="input-item" placeholder=""></el-input><span class="unit">&nbsp;琅琊豆</span>
+                            <span class="unit">大于&nbsp;</span><el-input v-model="form.进入门槛"  class="input-item" placeholder=""></el-input><span class="unit">&nbsp;游戏币</span>
                         </el-form-item>
                         <el-form-item label="举手申请擂主门槛：">
-                            <span class="unit">大于&nbsp;</span><el-input v-model="form.擂主门槛"   class="input-item" placeholder="" ></el-input><span class="unit">&nbsp;琅琊豆，数值不能小于每人每轮最大赔付数*11*6</span>
+                            <span class="unit">大于&nbsp;</span><el-input v-model="form.擂主门槛"   class="input-item" placeholder="" ></el-input><span class="unit">&nbsp;游戏币，数值不能小于每人每轮最大赔付数*11*6</span>
                         </el-form-item>
                         <el-form-item label="桌子数：">
                             <el-input-number v-model="form.桌子数" :min="1" :max="1000" label="描述文字"></el-input-number><span class="tips">注：每张桌子固定最大进入11个人</span>
                         </el-form-item>
                         <el-form-item label="每轮每人最大赔付数：">
-                            <el-input v-model="form.每轮每玩家最大赔付数"   class="input-item" placeholder=""></el-input><span class="unit">&nbsp;琅琊豆</span>
+                            <el-input v-model="form.每轮每玩家最大赔付数"   class="input-item" placeholder=""></el-input><span class="unit">&nbsp;游戏币</span>
                         </el-form-item>
                         <el-form-item label="筹码设定：">
                            <div class="input-row">
                                <span>筹码1</span>
                           <!--     <div class="input-box">展示文本&nbsp;<el-input v-model="form.筹码1文本"   class="input-item" placeholder=""></el-input></div>-->
-                               <div class="input-box">面额&nbsp;<el-input v-model="form.筹码1"   class="input-item" placeholder=""></el-input><span class="unit">&nbsp;琅琊豆</span></div>
+                               <div class="input-box">面额&nbsp;<el-input v-model="form.筹码1"   class="input-item" placeholder=""></el-input><span class="unit">&nbsp;游戏币</span></div>
                            </div>
                             <div class="input-row">
                                 <span>筹码2</span>
                            <!--     <div class="input-box">展示文本&nbsp;<el-input v-model="form.筹码2文本"   class="input-item" placeholder=""></el-input></div>-->
-                                <div class="input-box">面额&nbsp;<el-input v-model="form.筹码2"   class="input-item" placeholder=""></el-input><span class="unit">&nbsp;琅琊豆</span></div>
+                                <div class="input-box">面额&nbsp;<el-input v-model="form.筹码2"   class="input-item" placeholder=""></el-input><span class="unit">&nbsp;游戏币</span></div>
                             </div>
                             <div class="input-row">
                                 <span>筹码3</span>
                                <!-- <div class="input-box">展示文本&nbsp;<el-input v-model="form.筹码3文本"   class="input-item" placeholder=""></el-input></div>-->
-                                <div class="input-box">面额&nbsp;<el-input v-model="form.筹码3"   class="input-item" placeholder=""></el-input><span class="unit">&nbsp;琅琊豆</span></div>
+                                <div class="input-box">面额&nbsp;<el-input v-model="form.筹码3"   class="input-item" placeholder=""></el-input><span class="unit">&nbsp;游戏币</span></div>
                             </div>
                             <div class="input-row">
                                 <span>筹码4</span>
                                <!-- <div class="input-box">展示文本&nbsp;<el-input v-model="form.筹码4文本"   class="input-item" placeholder=""></el-input></div>-->
-                                <div class="input-box">面额&nbsp;<el-input v-model="form.筹码4"   class="input-item" placeholder=""></el-input><span class="unit">&nbsp;琅琊豆</span></div>
+                                <div class="input-box">面额&nbsp;<el-input v-model="form.筹码4"   class="input-item" placeholder=""></el-input><span class="unit">&nbsp;游戏币</span></div>
                             </div>
                             <div class="input-row">
                                 <span>筹码5</span>
                             <!--    <div class="input-box">展示文本&nbsp;<el-input v-model="form.筹码5文本"   class="input-item" placeholder=""></el-input></div>-->
-                                <div class="input-box">面额&nbsp;<el-input v-model="form.筹码5"   class="input-item" placeholder=""></el-input><span class="unit">&nbsp;琅琊豆</span></div>
+                                <div class="input-box">面额&nbsp;<el-input v-model="form.筹码5"   class="input-item" placeholder=""></el-input><span class="unit">&nbsp;游戏币</span></div>
                             </div>
                             <div class="input-row">
                                 <span>筹码6</span>
                               <!--  <div class="input-box">展示文本&nbsp;<el-input v-model="form.筹码6文本"   class="input-item" placeholder=""></el-input></div>-->
-                                <div class="input-box">面额&nbsp;<el-input v-model="form.筹码6"   class="input-item" placeholder=""></el-input><span class="unit">&nbsp;琅琊豆</span></div>
+                                <div class="input-box">面额&nbsp;<el-input v-model="form.筹码6"   class="input-item" placeholder=""></el-input><span class="unit">&nbsp;游戏币</span></div>
                             </div>
                         </el-form-item>
                         <el-form-item label=" ">

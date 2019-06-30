@@ -40,7 +40,7 @@
                     </template>
                 </el-table-column>
                 <el-table-column prop="user.lastLocation" label="最近登陆IP"  align="center"></el-table-column>
-                <el-table-column prop="user.balance" label="琅琊豆余额"  align="center"  width="70"></el-table-column>
+                <el-table-column prop="user.balance" label="游戏币余额"  align="center"  width="70"></el-table-column>
                 <el-table-column label="操作"  align="center">
                     <template slot-scope="scope">
                         <span @click="openRemarkModal(null,scope.row)"  class="cm-btn cm-link-btn">拉黑用户</span>

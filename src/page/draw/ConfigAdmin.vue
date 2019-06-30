@@ -50,7 +50,7 @@
                         <el-form-item label="奖品类型：" prop="vipLevel">
                             <el-select v-model="form.type" placeholder="请选择奖品类型" style="width: 150px;">
                                 <el-option label="会员" value="vip"></el-option>
-                                <el-option label="琅琊豆" value="langyaCoin"></el-option>
+                                <el-option label="游戏币" value="langyaCoin"></el-option>
                             </el-select>
                         </el-form-item>
                         <el-form-item label="奖品：" prop="vipTypeId" v-if="form.type=='vip'">
@@ -59,7 +59,7 @@
                             </el-select>
                         </el-form-item>
                         <el-form-item label="奖品：" prop="langyaCoin" v-if="form.type=='langyaCoin'">
-                            <el-input v-model="form.langyaCoin" placeholder="请输入琅琊豆数量" style="width: 150px;"></el-input><span class="unit">&nbsp;琅琊豆</span>
+                            <el-input v-model="form.langyaCoin" placeholder="请输入游戏币数量" style="width: 150px;"></el-input><span class="unit">&nbsp;游戏币</span>
                         </el-form-item>
                         <el-form-item label="奖品名称：" prop="vipName">
                             <el-input v-model="form.name" placeholder="请输入奖品名称"></el-input>
@@ -198,7 +198,7 @@
                     return;
                 }
                 if(this.form.type=='langyaCoin'&&(!this.form.langyaCoin||!regex.pInt.test(this.form.langyaCoin))){
-                    Vue.operationFeedback({type:'warn',text:'奖品琅琊豆数量输入有误，'+regex.pIntAlert});
+                    Vue.operationFeedback({type:'warn',text:'奖品游戏币数量输入有误，'+regex.pIntAlert});
                     return;
                 }
                 if(!this.form.name){

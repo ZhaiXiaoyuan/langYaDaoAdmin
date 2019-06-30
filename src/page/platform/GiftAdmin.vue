@@ -38,7 +38,7 @@
                 <el-table-column prop="giftName" label="礼物名称"  align="center"></el-table-column>
                 <el-table-column label="礼物价值" align="center">
                     <template slot-scope="scope">
-                        <span>{{scope.row.langyaCoin}}琅琊豆</span>
+                        <span>{{scope.row.langyaCoin}}游戏币</span>
                     </template>
                 </el-table-column>
                 <el-table-column label="操作"  align="center" width="300">
@@ -86,7 +86,7 @@
                             <el-input v-model="form.giftName" placeholder="请输入礼物名称"></el-input>
                         </el-form-item>
                         <el-form-item label="礼物价值：" prop="langyaCoin">
-                            <el-input v-model="form.langyaCoin" placeholder="请输入礼物价值" style="width: 150px;"></el-input><span class="unit">&nbsp;琅琊豆</span>
+                            <el-input v-model="form.langyaCoin" placeholder="请输入礼物价值" style="width: 150px;"></el-input><span class="unit">&nbsp;游戏币</span>
                         </el-form-item>
                     </el-form>
                 </div>
