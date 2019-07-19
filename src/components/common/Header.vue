@@ -4,7 +4,7 @@
             <i class="el-icon-menu"></i>
         </div>
         <div class="title">
-            <i class="icon logo-icon"></i><span>琅琊岛后台管理系统</span>
+            <i class="icon logo-icon"></i><span>31ent后台管理系统</span>
         </div>
         <div class="user-info">
             <span class="greed"> 您好，管理员</span>
@@ -30,7 +30,7 @@
         },
         methods:{
             logout(command) {
-                Vue.cookie.set('account','');
+                Vue.cookie.set('AdminAccount','');
                 let loginPage=localStorage.getItem('loginPage');
                 this.$router.push({name:loginPage?loginPage:'login'});
             },

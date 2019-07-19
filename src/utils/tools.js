@@ -139,14 +139,21 @@ export default {
               }
           },
         getAccountInfo:function () {
-            let account=Vue.cookie.get('account');
+            let account=Vue.cookie.get('AdminAccount');
             if(account){
-                return JSON.parse(account);
+                return JSON.parse(account).admin;
             }else{
                 router.push({name:'login'});
                 return{};
             }
         },
+          clearAccount:function () {
+              let account=this.getAccountInfo();
+              if(account){
+                  Vue.cookie.set('AdminAccount','');
+                  router.push({name:'login'});
+              }
+          },
         moneyFormat:function (str) {
             return (str/100).toFixed(2);
         },

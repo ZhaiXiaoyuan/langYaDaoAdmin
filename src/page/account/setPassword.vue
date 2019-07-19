@@ -10,7 +10,7 @@
                 <div style="width: 300px;margin: 50px auto 0px auto;">
                     <el-form label-width="40px">
                         <el-form-item label="账号">
-                            <el-input v-model="form.name" disabled></el-input>
+                            <el-input v-model="form.account" disabled></el-input>
                         </el-form-item>
                         <el-form-item label="密码">
                             <el-input v-model="form.password" type="password" placeholder="请输入密码"></el-input>
@@ -70,12 +70,11 @@
                }
                let params={
                    id:this.account.id,
-                   name:'',
+                   account:this.account.account,
                    password:this.form.password,
-                   phone:'',
                }
                let fb=Vue.operationFeedback({text:'保存中...'});
-               Vue.api.updateAdminPassword(params).then((resp)=>{
+               Vue.api.updatePwd({apiParams:params}).then((resp)=>{
                    if(resp.respCode=='2000'){
                        fb.setOptions({type:'complete',text:'保存成功，稍后系统将退出账号，请您重新登录'});
                        setTimeout(()=>{
@@ -87,15 +86,15 @@
                })
            },
            logout:function () {
-               Vue.cookie.set('account','');
+               Vue.cookie.set('AdminAccount','');
                let loginPage=localStorage.getItem('loginPage');
-               this.$router.push({name:loginPage?loginPage:'login'});
+               this.$router.push({name:'login'});
            }
         },
         mounted () {
             this.account=this.getAccountInfo();
             this.form={...this.form,...this.account}
-            console.log('this.account:',this.account);
+            console.log('this.form:',this.form);
         },
     }
 </script>

@@ -149,7 +149,7 @@
                             fb.setOptions({type:'warn',text:'登录失败，'+resp.respMsg});
                         }else{
                             let data=JSON.parse(resp.respMsg);
-                            this.$cookie.set('account',JSON.stringify(data),7);
+                            this.$cookie.set('AdminAccount',JSON.stringify(data),7);
                             fb.setOptions({type:'complete',text:'登录成功'});
                             this.$router.push({name:'bannerAdmin',params:{}});
                         }

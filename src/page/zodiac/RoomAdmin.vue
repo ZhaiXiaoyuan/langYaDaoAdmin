@@ -13,19 +13,19 @@
                 <el-tab-pane label="大师房" name="大师房"></el-tab-pane>
             </el-tabs>
             <div class="tab-content" v-loading="loading">
-                <div style="width: 580px;margin: 20px auto 30px auto;">
+                <div style="width: 750px;margin: 20px auto 30px auto;">
                     <el-form label-width="160px">
                         <el-form-item label="进入门槛：">
                             <span class="unit">大于&nbsp;</span><el-input v-model="form.进入门槛"  class="input-item" placeholder=""></el-input><span class="unit">&nbsp;游戏币</span>
                         </el-form-item>
+                        <el-form-item label="每轮每人最大赔付数：">
+                            <el-input v-model="form.每轮每玩家最大赔付数"   class="input-item" placeholder=""></el-input><span class="unit">&nbsp;游戏币</span>
+                        </el-form-item>
                         <el-form-item label="举手申请擂主门槛：">
-                            <span class="unit">大于&nbsp;</span><el-input v-model="form.擂主门槛"   class="input-item" placeholder="" ></el-input><span class="unit">&nbsp;游戏币，数值不能小于每人每轮最大赔付数*11*6</span>
+                            <span class="unit">大于&nbsp;</span><el-input v-model="form.擂主门槛"   class="input-item" placeholder="" ></el-input><span class="unit">&nbsp;游戏币，数值不能小于每人每轮最大赔付数*11*6 <span v-if="form.每轮每玩家最大赔付数*11*6">（{{form.每轮每玩家最大赔付数*11*6}}）</span></span>
                         </el-form-item>
                         <el-form-item label="桌子数：">
                             <el-input-number v-model="form.桌子数" :min="1" :max="1000" label="描述文字"></el-input-number><span class="tips">注：每张桌子固定最大进入11个人</span>
-                        </el-form-item>
-                        <el-form-item label="每轮每人最大赔付数：">
-                            <el-input v-model="form.每轮每玩家最大赔付数"   class="input-item" placeholder=""></el-input><span class="unit">&nbsp;游戏币</span>
                         </el-form-item>
                         <el-form-item label="筹码设定：">
                            <div class="input-row">
@@ -72,7 +72,7 @@
     .room-admin{
         .tab-content{
             .input-item{
-                width: 80px;
+                width: 150px;
             }
             .tips{
                 padding-left: 5px;
@@ -97,8 +97,9 @@
               account:{},
               configData:{},
               form:{
-
+                 /* 每轮每玩家最大赔付数:0,*/
               },
+              minNum:0,
               type:'初级房',//初级房,中级房，高级房，大师房
               loading:false,
             }
@@ -108,6 +109,16 @@
         computed: {
 
         },
+       /* watch: {
+            form: {
+                handler(newValue, oldValue) {
+                    if (oldValue['每轮每玩家最大赔付数'] != newValue['每轮每玩家最大赔付数']) {
+                        console.log(newValue)
+                    }
+                },
+                deep: true
+            }
+        },*/
         methods: {
            getData:function () {
                this.loading=true;
@@ -130,16 +141,16 @@
                    Vue.operationFeedback({type:'warn',text:'进入门槛数值有误，'+regex.pIntAlert});
                    return;
                }
+               if(!regex.pInt.test(this.form.每轮每玩家最大赔付数)){
+                   Vue.operationFeedback({type:'warn',text:'每轮每玩家最大赔付数数值有误，'+regex.pIntAlert});
+                   return;
+               }
                if(!regex.pInt.test(this.form.擂主门槛)){
                    Vue.operationFeedback({type:'warn',text:'擂主门槛数值有误，'+regex.pIntAlert});
                    return;
                }
                if(!regex.pInt.test(this.form.桌子数)){
                    Vue.operationFeedback({type:'warn',text:'桌子数数值有误，'+regex.pIntAlert});
-                   return;
-               }
-               if(!regex.pInt.test(this.form.每轮每玩家最大赔付数)){
-                   Vue.operationFeedback({type:'warn',text:'每轮每玩家最大赔付数数值有误，'+regex.pIntAlert});
                    return;
                }
                for(let i=1;i<7;i++){

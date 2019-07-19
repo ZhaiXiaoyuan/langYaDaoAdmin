@@ -89,6 +89,11 @@ export default new Router({
                     name:'manorAdmin',
                     component: resolve => require(['../page/manor/ManorAdmin.vue'], resolve)
                 },
+                {
+                    path: '/setPassword',
+                    name:'setPassword',
+                    component: resolve => require(['../page/account/SetPassword.vue'], resolve)
+                },
             ]
         },
         {

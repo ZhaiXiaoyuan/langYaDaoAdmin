@@ -74,7 +74,7 @@
                                         <span class="cm-btn cm-link-btn text-upload-btn">重新上传</span>
                                     </div>
                                 </div>
-                                <p class="tips">上传图片建议比例为1920*320，格式为jpg、png，大小不超过10M</p>
+                                <p class="tips">上传图片建议比例为1920*350，格式为jpg、png，大小不超过20M</p>
                             </div>
                         </el-form-item>
                         <el-form-item label="跳转链接：" prop="url">

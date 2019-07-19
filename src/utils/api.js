@@ -11,13 +11,13 @@ export default {
     Vue.http.options.emulateJSON = true;
     Vue.http.interceptors.push((request, next)  =>{
 
-      next((response) => {
-        //对于有作登录状态的接口你，未未登录时跳转到登录页
-        if(response.status==401){
-         /* router.push({name:''});*/
-        }
-        return response
-      });
+        next((response) => {
+            //登录状态拦截
+            if(response.body.respCode=='4003'){
+                Vue.tools.clearAccount();
+            }
+            return response
+        });
 
     });
     /*自定义ajax函数，自带的不好用*/
@@ -407,6 +407,14 @@ export default {
             return Vue.http.ajax({
                 method: 'post',
                 url: basicUrl3+'/pasture/removeAnimal',
+                params: params
+            });
+        },
+        //修改密码
+        updatePwd:function (params) {
+            return Vue.http.ajax({
+                method: 'post',
+                url: basicUrl+'/admin/updateAdmin',
                 params: params
             });
         },

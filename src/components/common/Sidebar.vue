@@ -188,6 +188,12 @@
                             },
                         ],
                     },
+                    {
+                        code:'08',
+                        icon: '#icon-xiugaimima',
+                        index: '/setPassword',
+                        title: '修改密码',
+                    },
                 ],
                 items: []
             }
@@ -208,9 +214,8 @@
             //
             this.accountInfo=this.getAccountInfo();
             this.accountAccess=null;
-            //临时测试
             if(true||this.accountInfo.type=='superManager'){
-                this.accountAccess=['01','02','03','04','05','06','07'];
+                this.accountAccess=['01','02','03','04','05','06','07','08'];
                /* this.accountAccess='all';*/
             }else if(this.accountInfo.type=='marketManager'){
                 this.accountAccess=['01','02','10'];
