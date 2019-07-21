@@ -30,19 +30,15 @@
                         {{scope.$index+1}}
                     </template>
                 </el-table-column>
+                <el-table-column label="时间"  align="center">
+                    <template slot-scope="scope">
+                        {{scope.row.createdAt|formatDate('yyyy-MM-dd hh:mm')}}
+                    </template>
+                </el-table-column>
+                <el-table-column prop="userId" label="用户ID"  align="center"></el-table-column>
+              <!--  <el-table-column prop="" label="昵称"  align="center"></el-table-column>-->
+                <el-table-column prop="bonus" label="消耗积分"  align="center"></el-table-column>
                 <el-table-column prop="name" label="名称"  align="center"></el-table-column>
-                <el-table-column label="logo" align="center" width="60">
-                    <template slot-scope="scope">
-                        <img :src="basicConfig.coverBasicUrl+scope.row.logo" style="width: 40px;height: 40px;" alt="">
-                    </template>
-                </el-table-column>
-                <el-table-column prop="regionName" label="地区"  align="center"></el-table-column>
-                <el-table-column label="操作"  align="center">
-                    <template slot-scope="scope">
-                        <span @click="openFormModal(scope.row)" class="cm-btn cm-link-btn">编辑</span>
-                        <span @click="remove(scope.$index)" class="cm-btn cm-link-btn">删除</span>
-                    </template>
-                </el-table-column>
             </el-table>
             <div class="pagination">
                 <el-pagination
@@ -96,11 +92,11 @@
                 Vue.api.getBonusLotteryRecordList({apiParams:params}).then((resp)=>{
                     if(resp.respCode=='2000'){
                         let data=JSON.parse(resp.respMsg);
-                        console.log('data:',data);
-                        let list=data.memberOrganizationList;
+                      /*  console.log('data:',data);*/
+                        let list=data.list;
                         this.entryList=list;
                         this.pager.total=data.count;
-                          console.log('this.entryList:',this.entryList);
+                        /*  console.log('this.entryList:',this.entryList);*/
                     }
                     let timeout=setTimeout(()=>{
                         this.pager.loading=false;
