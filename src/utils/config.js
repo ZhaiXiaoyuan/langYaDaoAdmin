@@ -6,10 +6,10 @@ export default {
         //临时测试
         isDev=false;
         Vue.appConfig={
-            domain:isDev?'/api':'http://www.31ent.com',
-            domain2:isDev?'http://api.linqi.tech:8600':'http://www.31ent.com:8600',
-            domain3:isDev?'http://api.linqi.tech:8602':'http://www.31ent.com:8602',
-            fileDomain:isDev?'http://api.linqi.tech':'http://www.31ent.com',
+            domain:isDev?'/api':'https://www.31ent.com',
+            domain2:isDev?'http://api.linqi.tech:8600':'https://www.31ent.com:8600',
+            domain3:isDev?'http://api.linqi.tech:8602':'https://www.31ent.com:8602',
+            fileDomain:isDev?'http://api.linqi.tech':'https://www.31ent.com',
         }
     },
 }
